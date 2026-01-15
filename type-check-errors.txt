@@ -1,0 +1,190 @@
+app/admin/page.tsx(21,17): error TS6133: 'session' is declared but its value is never read.
+app/api/categories/[id]/route.ts(147,10): error TS6133: 'request' is declared but its value is never read.
+app/api/categories/reorder/route.ts(15,10): error TS6133: 'request' is declared but its value is never read.
+app/api/categories/route.ts(41,15): error TS18046: 'category.menuItems' is of type 'unknown'.
+app/api/categories/route.ts(59,10): error TS6133: 'request' is declared but its value is never read.
+app/api/menu/[id]/route.ts(13,10): error TS6133: 'request' is declared but its value is never read.
+app/api/menu/[id]/route.ts(118,10): error TS6133: 'request' is declared but its value is never read.
+app/api/menu/route.ts(75,10): error TS6133: 'request' is declared but its value is never read.
+app/api/orders/[id]/route.ts(11,10): error TS6133: 'request' is declared but its value is never read.
+app/api/orders/route.ts(19,10): error TS6133: 'request' is declared but its value is never read.
+app/api/orders/route.ts(143,10): error TS6133: 'request' is declared but its value is never read.
+app/api/settings/route.ts(14,45): error TS6133: 'request' is declared but its value is never read.
+app/api/settings/route.ts(38,10): error TS6133: 'request' is declared but its value is never read.
+app/api/settings/smtp/route.ts(5,3): error TS6133: 'withErrorHandling' is declared but its value is never read.
+app/api/settings/smtp/route.ts(11,8): error TS6133: 'SMTPConfigUpdateInput' is declared but its value is never read.
+app/api/settings/smtp/route.ts(15,36): error TS6133: 'request' is declared but its value is never read.
+app/api/settings/smtp/test/route.ts(16,10): error TS6133: 'request' is declared but its value is never read.
+app/sitemap.ts(8,9): error TS6133: 'menuItems' is declared but its value is never read.
+app/sitemap.ts(17,9): error TS6133: 'categories' is declared but its value is never read.
+lib/components/customer/CartSheet.tsx(8,22): error TS6133: 'RadioGroupItem' is declared but its value is never read.
+lib/components/customer/CartSheet.tsx(17,1): error TS6192: All imports in import declaration are unused.
+lib/components/lazy/index.tsx(28,16): error TS2307: Cannot find module '@/lib/components/admin/AdminDashboard' or its corresponding type declarations.
+lib/components/optimized/OptimizedImage.tsx(21,10): error TS6133: 'error' is declared but its value is never read.
+lib/validations/__tests__/schemas.test.ts(4,3): error TS6133: 'menuItemUpdateSchema' is declared but its value is never read.
+lib/validations/__tests__/schemas.test.ts(6,3): error TS6133: 'categoryUpdateSchema' is declared but its value is never read.
+lib/validations/__tests__/schemas.test.ts(9,3): error TS6133: 'orderUpdateSchema' is declared but its value is never read.
+lib/validations/schemas.ts(161,7): error TS6133: 'daysOfWeek' is declared but its value is never read.
+prisma.config.ts(4,35): error TS2307: Cannot find module 'prisma/config' or its corresponding type declarations.
+src/App.tsx(33,11): error TS2322: Type '(newValue: MenuItem[] | ((oldValue?: MenuItem[] | undefined) => MenuItem[])) => void' is not assignable to type '(items: MenuItem[] | ((prev: MenuItem[]) => MenuItem[])) => void'.
+  Types of parameters 'newValue' and 'items' are incompatible.
+    Type 'MenuItem[] | ((prev: MenuItem[]) => MenuItem[])' is not assignable to type 'MenuItem[] | ((oldValue?: MenuItem[] | undefined) => MenuItem[])'.
+      Type '(prev: MenuItem[]) => MenuItem[]' is not assignable to type 'MenuItem[] | ((oldValue?: MenuItem[] | undefined) => MenuItem[])'.
+        Type '(prev: MenuItem[]) => MenuItem[]' is not assignable to type '(oldValue?: MenuItem[] | undefined) => MenuItem[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'MenuItem[] | undefined' is not assignable to type 'MenuItem[]'.
+              Type 'undefined' is not assignable to type 'MenuItem[]'.
+src/App.tsx(35,11): error TS2322: Type '(newValue: Category[] | ((oldValue?: Category[] | undefined) => Category[])) => void' is not assignable to type '(categories: Category[] | ((prev: Category[]) => Category[])) => void'.
+  Types of parameters 'newValue' and 'categories' are incompatible.
+    Type 'Category[] | ((prev: Category[]) => Category[])' is not assignable to type 'Category[] | ((oldValue?: Category[] | undefined) => Category[])'.
+      Type '(prev: Category[]) => Category[]' is not assignable to type 'Category[] | ((oldValue?: Category[] | undefined) => Category[])'.
+        Type '(prev: Category[]) => Category[]' is not assignable to type '(oldValue?: Category[] | undefined) => Category[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'Category[] | undefined' is not assignable to type 'Category[]'.
+              Type 'undefined' is not assignable to type 'Category[]'.
+src/App.tsx(37,11): error TS2322: Type '(newValue: Order[] | ((oldValue?: Order[] | undefined) => Order[])) => void' is not assignable to type '(orders: Order[] | ((prev: Order[]) => Order[])) => void'.
+  Types of parameters 'newValue' and 'orders' are incompatible.
+    Type 'Order[] | ((prev: Order[]) => Order[])' is not assignable to type 'Order[] | ((oldValue?: Order[] | undefined) => Order[])'.
+      Type '(prev: Order[]) => Order[]' is not assignable to type 'Order[] | ((oldValue?: Order[] | undefined) => Order[])'.
+        Type '(prev: Order[]) => Order[]' is not assignable to type '(oldValue?: Order[] | undefined) => Order[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'Order[] | undefined' is not assignable to type 'Order[]'.
+              Type 'undefined' is not assignable to type 'Order[]'.
+src/App.tsx(39,11): error TS2322: Type '(newValue: RestaurantSettings | ((oldValue?: RestaurantSettings | undefined) => RestaurantSettings)) => void' is not assignable to type '(settings: RestaurantSettings | ((prev: RestaurantSettings) => RestaurantSettings)) => void'.
+  Types of parameters 'newValue' and 'settings' are incompatible.
+    Type 'RestaurantSettings | ((prev: RestaurantSettings) => RestaurantSettings)' is not assignable to type 'RestaurantSettings | ((oldValue?: RestaurantSettings | undefined) => RestaurantSettings)'.
+      Type '(prev: RestaurantSettings) => RestaurantSettings' is not assignable to type 'RestaurantSettings | ((oldValue?: RestaurantSettings | undefined) => RestaurantSettings)'.
+        Type '(prev: RestaurantSettings) => RestaurantSettings' is not assignable to type '(oldValue?: RestaurantSettings | undefined) => RestaurantSettings'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'RestaurantSettings | undefined' is not assignable to type 'RestaurantSettings'.
+              Type 'undefined' is not assignable to type 'RestaurantSettings'.
+src/App.tsx(44,11): error TS2322: Type '(newValue: HeroConfig | ((oldValue?: HeroConfig | undefined) => HeroConfig)) => void' is not assignable to type '(config: HeroConfig | ((prev: HeroConfig) => HeroConfig)) => void'.
+  Types of parameters 'newValue' and 'config' are incompatible.
+    Type 'HeroConfig | ((prev: HeroConfig) => HeroConfig)' is not assignable to type 'HeroConfig | ((oldValue?: HeroConfig | undefined) => HeroConfig)'.
+      Type '(prev: HeroConfig) => HeroConfig' is not assignable to type 'HeroConfig | ((oldValue?: HeroConfig | undefined) => HeroConfig)'.
+        Type '(prev: HeroConfig) => HeroConfig' is not assignable to type '(oldValue?: HeroConfig | undefined) => HeroConfig'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'HeroConfig | undefined' is not assignable to type 'HeroConfig'.
+              Type 'undefined' is not assignable to type 'HeroConfig'.
+src/App.tsx(46,11): error TS2322: Type '(newValue: Promotion[] | ((oldValue?: Promotion[] | undefined) => Promotion[])) => void' is not assignable to type '(promotions: Promotion[] | ((prev: Promotion[]) => Promotion[])) => void'.
+  Types of parameters 'newValue' and 'promotions' are incompatible.
+    Type 'Promotion[] | ((prev: Promotion[]) => Promotion[])' is not assignable to type 'Promotion[] | ((oldValue?: Promotion[] | undefined) => Promotion[])'.
+      Type '(prev: Promotion[]) => Promotion[]' is not assignable to type 'Promotion[] | ((oldValue?: Promotion[] | undefined) => Promotion[])'.
+        Type '(prev: Promotion[]) => Promotion[]' is not assignable to type '(oldValue?: Promotion[] | undefined) => Promotion[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'Promotion[] | undefined' is not assignable to type 'Promotion[]'.
+              Type 'undefined' is not assignable to type 'Promotion[]'.
+src/App.tsx(48,11): error TS2322: Type '(newValue: FeaturedItem[] | ((oldValue?: FeaturedItem[] | undefined) => FeaturedItem[])) => void' is not assignable to type '(items: FeaturedItem[] | ((prev: FeaturedItem[]) => FeaturedItem[])) => void'.
+  Types of parameters 'newValue' and 'items' are incompatible.
+    Type 'FeaturedItem[] | ((prev: FeaturedItem[]) => FeaturedItem[])' is not assignable to type 'FeaturedItem[] | ((oldValue?: FeaturedItem[] | undefined) => FeaturedItem[])'.
+      Type '(prev: FeaturedItem[]) => FeaturedItem[]' is not assignable to type 'FeaturedItem[] | ((oldValue?: FeaturedItem[] | undefined) => FeaturedItem[])'.
+        Type '(prev: FeaturedItem[]) => FeaturedItem[]' is not assignable to type '(oldValue?: FeaturedItem[] | undefined) => FeaturedItem[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'FeaturedItem[] | undefined' is not assignable to type 'FeaturedItem[]'.
+              Type 'undefined' is not assignable to type 'FeaturedItem[]'.
+src/App.tsx(50,11): error TS2322: Type '(newValue: Banner[] | ((oldValue?: Banner[] | undefined) => Banner[])) => void' is not assignable to type '(banners: Banner[] | ((prev: Banner[]) => Banner[])) => void'.
+  Types of parameters 'newValue' and 'banners' are incompatible.
+    Type 'Banner[] | ((prev: Banner[]) => Banner[])' is not assignable to type 'Banner[] | ((oldValue?: Banner[] | undefined) => Banner[])'.
+      Type '(prev: Banner[]) => Banner[]' is not assignable to type 'Banner[] | ((oldValue?: Banner[] | undefined) => Banner[])'.
+        Type '(prev: Banner[]) => Banner[]' is not assignable to type '(oldValue?: Banner[] | undefined) => Banner[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'Banner[] | undefined' is not assignable to type 'Banner[]'.
+              Type 'undefined' is not assignable to type 'Banner[]'.
+src/App.tsx(52,11): error TS2322: Type '(newValue: LandingPageConfig | ((oldValue?: LandingPageConfig | undefined) => LandingPageConfig)) => void' is not assignable to type '(config: LandingPageConfig | ((prev: LandingPageConfig) => LandingPageConfig)) => void'.
+  Types of parameters 'newValue' and 'config' are incompatible.
+    Type 'LandingPageConfig | ((prev: LandingPageConfig) => LandingPageConfig)' is not assignable to type 'LandingPageConfig | ((oldValue?: LandingPageConfig | undefined) => LandingPageConfig)'.
+      Type '(prev: LandingPageConfig) => LandingPageConfig' is not assignable to type 'LandingPageConfig | ((oldValue?: LandingPageConfig | undefined) => LandingPageConfig)'.
+        Type '(prev: LandingPageConfig) => LandingPageConfig' is not assignable to type '(oldValue?: LandingPageConfig | undefined) => LandingPageConfig'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'LandingPageConfig | undefined' is not assignable to type 'LandingPageConfig'.
+              Type 'undefined' is not assignable to type 'LandingPageConfig'.
+src/App.tsx(59,11): error TS2322: Type '(newValue: Order[] | ((oldValue?: Order[] | undefined) => Order[])) => void' is not assignable to type '(orders: Order[] | ((prev: Order[]) => Order[])) => void'.
+  Types of parameters 'newValue' and 'orders' are incompatible.
+    Type 'Order[] | ((prev: Order[]) => Order[])' is not assignable to type 'Order[] | ((oldValue?: Order[] | undefined) => Order[])'.
+      Type '(prev: Order[]) => Order[]' is not assignable to type 'Order[] | ((oldValue?: Order[] | undefined) => Order[])'.
+        Type '(prev: Order[]) => Order[]' is not assignable to type '(oldValue?: Order[] | undefined) => Order[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'Order[] | undefined' is not assignable to type 'Order[]'.
+              Type 'undefined' is not assignable to type 'Order[]'.
+src/components/customer/CartSheet.tsx(25,3): error TS6133: 'orders' is declared but its value is never read.
+src/components/customer/CustomerPortal.tsx(146,11): error TS2322: Type '(newValue: CartItem[] | ((oldValue?: CartItem[] | undefined) => CartItem[])) => void' is not assignable to type '(cart: CartItem[] | ((prev: CartItem[]) => CartItem[])) => void'.
+  Types of parameters 'newValue' and 'cart' are incompatible.
+    Type 'CartItem[] | ((prev: CartItem[]) => CartItem[])' is not assignable to type 'CartItem[] | ((oldValue?: CartItem[] | undefined) => CartItem[])'.
+      Type '(prev: CartItem[]) => CartItem[]' is not assignable to type 'CartItem[] | ((oldValue?: CartItem[] | undefined) => CartItem[])'.
+        Type '(prev: CartItem[]) => CartItem[]' is not assignable to type '(oldValue?: CartItem[] | undefined) => CartItem[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'CartItem[] | undefined' is not assignable to type 'CartItem[]'.
+              Type 'undefined' is not assignable to type 'CartItem[]'.
+src/components/customer/CustomerPortal.tsx(153,15): error TS2322: Type '{ menuItems: MenuItem[]; categories: Category[]; cart: CartItem[]; setCart: (newValue: CartItem[] | ((oldValue?: CartItem[] | undefined) => CartItem[])) => void; settings: RestaurantSettings; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'menuItems' does not exist on type 'IntrinsicAttributes'.
+src/components/customer/CustomerPortal.tsx(172,13): error TS2322: Type '(newValue: CartItem[] | ((oldValue?: CartItem[] | undefined) => CartItem[])) => void' is not assignable to type '(cart: CartItem[] | ((prev: CartItem[]) => CartItem[])) => void'.
+  Types of parameters 'newValue' and 'cart' are incompatible.
+    Type 'CartItem[] | ((prev: CartItem[]) => CartItem[])' is not assignable to type 'CartItem[] | ((oldValue?: CartItem[] | undefined) => CartItem[])'.
+      Type '(prev: CartItem[]) => CartItem[]' is not assignable to type 'CartItem[] | ((oldValue?: CartItem[] | undefined) => CartItem[])'.
+        Type '(prev: CartItem[]) => CartItem[]' is not assignable to type '(oldValue?: CartItem[] | undefined) => CartItem[]'.
+          Types of parameters 'prev' and 'oldValue' are incompatible.
+            Type 'CartItem[] | undefined' is not assignable to type 'CartItem[]'.
+              Type 'undefined' is not assignable to type 'CartItem[]'.
+src/components/ui/accordion.tsx(3,29): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-down'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-down.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-down';`
+src/components/ui/breadcrumb.tsx(3,26): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-right'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-right.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-right';`
+src/components/ui/breadcrumb.tsx(4,28): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/more-horizontal'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/more-horizontal.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/more-horizontal';`
+src/components/ui/calendar.tsx(2,25): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-left'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-left.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-left';`
+src/components/ui/calendar.tsx(3,26): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-right'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-right.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-right';`
+src/components/ui/carousel.tsx(7,23): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/arrow-left'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/arrow-left.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/arrow-left';`
+src/components/ui/carousel.tsx(8,24): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/arrow-right'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/arrow-right.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/arrow-right';`
+src/components/ui/checkbox.tsx(5,23): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/check'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/check.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/check';`
+src/components/ui/command.tsx(5,24): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/search'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/search.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/search';`
+src/components/ui/context-menu.tsx(5,23): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/check'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/check.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/check';`
+src/components/ui/context-menu.tsx(6,30): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-right'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-right.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-right';`
+src/components/ui/context-menu.tsx(7,24): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/circle'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/circle.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/circle';`
+src/components/ui/dialog.tsx(3,19): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/x'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/x.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/x';`
+src/components/ui/dropdown-menu.tsx(5,23): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/check'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/check.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/check';`
+src/components/ui/dropdown-menu.tsx(6,30): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-right'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-right.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-right';`
+src/components/ui/dropdown-menu.tsx(7,24): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/circle'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/circle.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/circle';`
+src/components/ui/input-otp.tsx(5,23): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/minus'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/minus.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/minus';`
+src/components/ui/menubar.tsx(3,23): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/check'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/check.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/check';`
+src/components/ui/menubar.tsx(4,30): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-right'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-right.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-right';`
+src/components/ui/menubar.tsx(5,24): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/circle'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/circle.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/circle';`
+src/components/ui/navigation-menu.tsx(4,29): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-down'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-down.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-down';`
+src/components/ui/pagination.tsx(2,29): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-left'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-left.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-left';`
+src/components/ui/pagination.tsx(3,30): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-right'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-right.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-right';`
+src/components/ui/pagination.tsx(4,32): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/more-horizontal'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/more-horizontal.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/more-horizontal';`
+src/components/ui/radio-group.tsx(5,24): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/circle'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/circle.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/circle';`
+src/components/ui/resizable.tsx(2,30): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/grip-vertical'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/grip-vertical.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/grip-vertical';`
+src/components/ui/select.tsx(3,23): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/check'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/check.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/check';`
+src/components/ui/select.tsx(4,29): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-down'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-down.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-down';`
+src/components/ui/select.tsx(5,27): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/chevron-up'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/chevron-up.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/chevron-up';`
+src/components/ui/sheet.tsx(3,19): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/x'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/x.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/x';`
+src/components/ui/sidebar.tsx(6,27): error TS7016: Could not find a declaration file for module 'lucide-react/dist/esm/icons/panel-left'. 'D:/Sliquetech project/restaurant-order-adm/node_modules/lucide-react/dist/esm/icons/panel-left.js' implicitly has an 'any' type.
+  If the 'lucide-react' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'lucide-react/dist/esm/icons/panel-left';`
+src/lib/test-utils.tsx(24,10): error TS6133: 'AllTheProviders' is declared but its value is never read.
