@@ -18,9 +18,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
+    /* 
     if (!customer.isVerified) {
       return NextResponse.json({ error: 'Please verify your email address' }, { status: 403 })
     }
+    */
 
     const isPasswordValid = await bcrypt.compare(password, customer.password)
 
@@ -31,12 +33,12 @@ export async function POST(req: Request) {
     // In a real app, we'd set a JWT cookie here. 
     // For this implementation, we'll return the user info and handle session in localStorage for simplicity, 
     // or return a simplified token/ID.
-    
+
     const { password: _, ...customerWithoutPassword } = customer
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: 'Login successful',
-      customer: customerWithoutPassword 
+      customer: customerWithoutPassword
     })
 
   } catch (error: any) {
