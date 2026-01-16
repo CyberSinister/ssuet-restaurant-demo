@@ -25,62 +25,74 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
             select: { menuItems: true },
           },
         }
+          menuItems: {
+        where: includeInactive ? {} : { available: true },
+      },
+      _count: {
+        select: { menuItems: true },
+      },
+    }
         : {
-          _count: {
-            select: { menuItems: true },
-          },
+  _count: {
+    select: { menuItems: true },
+  },
+},
+_count: {
+  select: { menuItems: true },
+},
         },
-      orderBy: { displayOrder: 'asc' },
+orderBy: { displayOrder: 'asc' },
     })
 
 
-    return NextResponse.json(categories)
+return NextResponse.json(categories)
   } catch (error) {
-    console.error('Error fetching categories:', error)
-    return createErrorResponse('Failed to fetch categories', 500)
-  }
+  console.error('Error fetching categories:', error)
+  return createErrorResponse('Failed to fetch categories', 500)
+}
 })
 
 // POST /api/categories - Create a new category (admin only)
 export const POST = withAuthAndBodyValidation(
   categorySchema,
   async (_request: NextRequest, validatedBody: CategoryInput) => {
-    const { prisma } = await import('@/lib/db/prisma')
-    try {
-      const { name, description, displayOrder, active } = validatedBody
+    async (_request: NextRequest, validatedBody: CategoryInput) => {
+      const { prisma } = await import('@/lib/db/prisma')
+      try {
+        const { name, description, displayOrder, active } = validatedBody
 
-      // Check if displayOrder is already in use
-      const existingCategory = await prisma.category.findFirst({
-        where: { displayOrder },
-      })
-
-      if (existingCategory) {
-        // Shift all categories at or after this displayOrder
-        await prisma.category.updateMany({
-          where: { displayOrder: { gte: displayOrder } },
-          data: { displayOrder: { increment: 1 } },
+        // Check if displayOrder is already in use
+        const existingCategory = await prisma.category.findFirst({
+          where: { displayOrder },
         })
-      }
 
-      // Create category
-      const category = await prisma.category.create({
-        data: {
-          name,
-          description,
-          displayOrder,
-          active,
-        },
-        include: {
-          _count: {
-            select: { menuItems: true },
+        if (existingCategory) {
+          // Shift all categories at or after this displayOrder
+          await prisma.category.updateMany({
+            where: { displayOrder: { gte: displayOrder } },
+            data: { displayOrder: { increment: 1 } },
+          })
+        }
+
+        // Create category
+        const category = await prisma.category.create({
+          data: {
+            name,
+            description,
+            displayOrder,
+            active,
           },
-        },
-      })
+          include: {
+            _count: {
+              select: { menuItems: true },
+            },
+          },
+        })
 
-      return NextResponse.json(category, { status: 201 })
-    } catch (error) {
-      console.error('Error creating category:', error)
-      return createErrorResponse('Failed to create category', 500)
+        return NextResponse.json(category, { status: 201 })
+      } catch (error) {
+        console.error('Error creating category:', error)
+        return createErrorResponse('Failed to create category', 500)
+      }
     }
-  }
 )

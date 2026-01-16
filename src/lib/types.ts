@@ -16,6 +16,7 @@ export interface MenuItem {
   dietaryTags: string[]
   available: boolean
   popular?: boolean
+  popular?: boolean
 }
 
 export interface CartItem {

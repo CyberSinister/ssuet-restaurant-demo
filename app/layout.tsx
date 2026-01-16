@@ -2,27 +2,26 @@ import type { Metadata } from 'next'
 import { Inter, Poppins, Roboto, Playfair_Display } from 'next/font/google'
 import '../src/index.css'
 import { RootProviders } from '@/lib/providers/root-providers'
-import { Analytics } from '@vercel/analytics/react'
 import { cn } from '@/lib/utils'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-const poppins = Poppins({ 
+const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-poppins',
 })
 
-const roboto = Roboto({ 
+const roboto = Roboto({
   subsets: ['latin'],
   weight: ['300', '400', '500', '700'],
   variable: '--font-roboto',
 })
 
-const playfair = Playfair_Display({ 
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
 })
@@ -60,7 +59,6 @@ export default function RootLayout({
         <RootProviders>
           {children}
         </RootProviders>
-        <Analytics />
       </body>
     </html>
   )

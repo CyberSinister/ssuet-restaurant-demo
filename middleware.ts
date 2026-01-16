@@ -8,7 +8,7 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const isAdminRoute = req.nextUrl.pathname.startsWith("/admin");
-  const isLoginPage = req.nextUrl.pathname === "/login";
+  const isLoginPage = req.nextUrl.pathname === "/login" || req.nextUrl.pathname === "/admin/login";
 
   // Protect admin routes (except login pages)
   if (isAdminRoute && !isLoginPage && !isLoggedIn) {

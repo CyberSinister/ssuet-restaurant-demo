@@ -18,7 +18,16 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
-        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'restaurant-demo.silquetech.com',
         pathname: '/**',
       },
     ],
@@ -36,7 +45,7 @@ const nextConfig = {
   experimental: {
     // Enable server actions
     serverActions: {
-      bodySizeLimit: '2mb',
+      bodySizeLimit: '10mb',
     },
     optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react', '@phosphor-icons/react'],
   },

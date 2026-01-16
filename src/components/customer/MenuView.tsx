@@ -247,13 +247,13 @@ function MenuItemCard({
 }
 
 interface MenuViewProps {
-  menuItems: MenuItem[]
-  categories: Category[]
-  cart: CartItem[]
-  setCart: (cart: CartItem[] | ((prev: CartItem[]) => CartItem[])) => void
-  settings: RestaurantSettings
-  onRequireLocation: () => void
-  isLocationSet: boolean
+  menuItems?: MenuItem[]
+  categories?: Category[]
+  cart?: CartItem[]
+  setCart?: (cart: CartItem[] | ((prev: CartItem[]) => CartItem[])) => void
+  settings?: RestaurantSettings
+  onRequireLocation?: () => void
+  isLocationSet?: boolean
 }
 
 // Main MenuView Component
@@ -306,13 +306,13 @@ export default function MenuView({
   // Handle quantity update
   const handleUpdateQuantity = (itemId: string, diff: number) => {
     setCart(prev => {
-        return prev.map(item => {
-           if (item.menuItem.id === itemId) {
-             const newQty = item.quantity + diff
-             return { ...item, quantity: newQty }
-           }
-           return item
-        }).filter(item => item.quantity > 0)
+      return prev.map(item => {
+        if (item.menuItem.id === itemId) {
+          const newQty = item.quantity + diff
+          return { ...item, quantity: newQty }
+        }
+        return item
+      }).filter(item => item.quantity > 0)
     })
   }
 
@@ -324,18 +324,18 @@ export default function MenuView({
     }
 
     setCart(prev => {
-       const existing = prev.find(i => i.menuItem.id === item.id)
-       if (existing) {
-         return prev.map(i => i.menuItem.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
-       }
-       // If item needs to be converted to CartItem structure
-       const cartItem: CartItem = {
-           menuItem: item,
-           quantity: 1,
-       }
-       return [...prev, cartItem] 
+      const existing = prev.find(i => i.menuItem.id === item.id)
+      if (existing) {
+        return prev.map(i => i.menuItem.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
+      }
+      // If item needs to be converted to CartItem structure
+      const cartItem: CartItem = {
+        menuItem: item,
+        quantity: 1,
+      }
+      return [...prev, cartItem]
     })
-    
+
     toast.success(`${item.name} added to cart`, {
       position: 'bottom-center',
       duration: 2000,

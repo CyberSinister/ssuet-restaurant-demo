@@ -33,22 +33,31 @@ export const GET = withErrorHandling(
               select: { menuItems: true },
             },
           }
+            menuItems: true,
+        _count: {
+          select: { menuItems: true },
+        },
+      }
           : {
-            _count: {
-              select: { menuItems: true },
-            },
+  _count: {
+    select: { menuItems: true },
+  },
+},
+_count: {
+  select: { menuItems: true },
+},
           },
       })
 
-      if (!category) {
-        return createErrorResponse('Category not found', 404)
-      }
+if (!category) {
+  return createErrorResponse('Category not found', 404)
+}
 
-      return NextResponse.json(category)
+return NextResponse.json(category)
     } catch (error) {
-      console.error('Error fetching category:', error)
-      return createErrorResponse('Failed to fetch category', 500)
-    }
+  console.error('Error fetching category:', error)
+  return createErrorResponse('Failed to fetch category', 500)
+}
   }
 )
 
@@ -134,55 +143,56 @@ export const PUT = withAuth(
 // DELETE /api/categories/[id] - Delete a category (admin only)
 export const DELETE = withAuth(
   async (_request: NextRequest, context: any) => {
-    try {
-      const { params } = context
-      const id = params.id
+    async (_request: NextRequest, context: any) => {
+      try {
+        const { params } = context
+        const id = params.id
 
-      // Validate ID
-      const validationResult = uuidSchema.safeParse(id)
-      if (!validationResult.success) {
-        return createErrorResponse('Invalid category ID', 400)
-      }
+        // Validate ID
+        const validationResult = uuidSchema.safeParse(id)
+        if (!validationResult.success) {
+          return createErrorResponse('Invalid category ID', 400)
+        }
 
-      // Check if category exists
-      const category = await prisma.category.findUnique({
-        where: { id },
-        include: {
-          _count: {
-            select: { menuItems: true },
+        // Check if category exists
+        const category = await prisma.category.findUnique({
+          where: { id },
+          include: {
+            _count: {
+              select: { menuItems: true },
+            },
           },
-        },
-      })
+        })
 
-      if (!category) {
-        return createErrorResponse('Category not found', 404)
+        if (!category) {
+          return createErrorResponse('Category not found', 404)
+        }
+
+        // Check if category has menu items
+        if (category._count.menuItems > 0) {
+          return createErrorResponse(
+            `Cannot delete category with ${category._count.menuItems} menu items. Please move or delete the items first.`,
+            400
+          )
+        }
+
+        // Delete category
+        await prisma.category.delete({
+          where: { id },
+        })
+
+        // Reorder remaining categories to fill the gap
+        await prisma.category.updateMany({
+          where: { displayOrder: { gt: category.displayOrder } },
+          data: { displayOrder: { decrement: 1 } },
+        })
+
+        return NextResponse.json({
+          message: 'Category deleted successfully',
+        })
+      } catch (error) {
+        console.error('Error deleting category:', error)
+        return createErrorResponse('Failed to delete category', 500)
       }
-
-      // Check if category has menu items
-      if (category._count.menuItems > 0) {
-        return createErrorResponse(
-          `Cannot delete category with ${category._count.menuItems} menu items. Please move or delete the items first.`,
-          400
-        )
-      }
-
-      // Delete category
-      await prisma.category.delete({
-        where: { id },
-      })
-
-      // Reorder remaining categories to fill the gap
-      await prisma.category.updateMany({
-        where: { displayOrder: { gt: category.displayOrder } },
-        data: { displayOrder: { decrement: 1 } },
-      })
-
-      return NextResponse.json({
-        message: 'Category deleted successfully',
-      })
-    } catch (error) {
-      console.error('Error deleting category:', error)
-      return createErrorResponse('Failed to delete category', 500)
     }
-  }
 )

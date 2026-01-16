@@ -12,7 +12,7 @@ interface OptimizedImageProps extends Omit<ImageProps, 'onError' | 'onLoad'> {
 export function OptimizedImage({
   src,
   alt,
-  fallbackSrc = '/placeholder-food.jpg',
+  fallbackSrc = 'https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image',
   showSkeleton = true,
   className,
   ...props
@@ -33,19 +33,32 @@ export function OptimizedImage({
     }
   }
 
+  const isLocalUpload = typeof imgSrc === 'string' && (imgSrc.startsWith('/uploads') || imgSrc.startsWith('/api/uploads') || imgSrc.includes('placehold.co'))
+
   return (
     <div className="relative w-full h-full">
       {isLoading && showSkeleton && (
         <Skeleton className="absolute inset-0 w-full h-full" />
       )}
-      <Image
-        src={imgSrc}
-        alt={alt}
-        className={className}
-        onLoad={handleLoad}
-        onError={handleError}
-        {...props}
-      />
+      {isLocalUpload ? (
+        <img
+          src={imgSrc as string}
+          alt={alt as string}
+          className={className}
+          onLoad={handleLoad}
+          onError={handleError}
+          style={{ objectFit: props.fill ? 'cover' : undefined, width: '100%', height: '100%' }}
+        />
+      ) : (
+        <Image
+          src={imgSrc}
+          alt={alt}
+          className={className}
+          onLoad={handleLoad}
+          onError={handleError}
+          {...props}
+        />
+      )}
     </div>
   )
 }

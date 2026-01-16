@@ -1,10 +1,9 @@
 import { ComponentProps } from "react"
-import ChevronLeft from "lucide-react/dist/esm/icons/chevron-left"
-import ChevronRight from "lucide-react/dist/esm/icons/chevron-right"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 
 function Calendar({
   className,

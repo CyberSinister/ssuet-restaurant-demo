@@ -19,7 +19,7 @@ export default function AdminError({ error, reset }: ErrorProps) {
 
   const handleLogout = async () => {
     await signOut({ redirect: false })
-    window.location.href = '/admin/login'
+    window.location.href = '/login'
   }
 
   return (

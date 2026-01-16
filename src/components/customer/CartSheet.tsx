@@ -26,6 +26,7 @@ export default function CartSheet({
   setCart,
   settings,
   orders: _orders,
+  orders: _orders,
   setOrders,
   location,
   onClose,
@@ -35,14 +36,14 @@ export default function CartSheet({
   const [customerName, setCustomerName] = useState(customer?.name || '')
   const [customerEmail, setCustomerEmail] = useState(customer?.email || '')
   const [customerPhone, setCustomerPhone] = useState(customer?.phone || '')
-  
+
   // Auto-fill form updates if customer logs in while cart is open
   useEffect(() => {
     if (customer) {
-        if (customer.name) setCustomerName(customer.name)
-        if (customer.email) setCustomerEmail(customer.email)
-        if (customer.phone) setCustomerPhone(customer.phone)
-        if (customer.address) setAddress(customer.address)
+      if (customer.name) setCustomerName(customer.name)
+      if (customer.email) setCustomerEmail(customer.email)
+      if (customer.phone) setCustomerPhone(customer.phone)
+      if (customer.address) setAddress(customer.address)
     }
   }, [customer])
   const [orderType, setOrderType] = useState<OrderType>(location ? 'DELIVERY' : 'TAKEAWAY')
@@ -87,9 +88,9 @@ export default function CartSheet({
     }
 
     const fullAddress = location
-      ? (orderType === 'DELIVERY' 
-          ? `${address}, ${location.area}, ${location.city}`
-          : `${location.area}, ${location.city}`) // For pickup, just send the branch location
+      ? (orderType === 'DELIVERY'
+        ? `${address}, ${location.area}, ${location.city}`
+        : `${location.area}, ${location.city}`) // For pickup, just send the branch location
       : address
 
     const payload = {
@@ -139,7 +140,7 @@ export default function CartSheet({
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in zoom-in duration-500">
         <div className="w-32 h-32 bg-primary/5 rounded-full flex items-center justify-center mb-6">
-            <ShoppingCart size={64} className="text-primary opacity-20" weight="duotone" />
+          <ShoppingCart size={64} className="text-primary opacity-20" weight="duotone" />
         </div>
         <h4 className="text-foreground font-black uppercase text-xl tracking-tight">Your cart is silent</h4>
         <p className="text-muted-foreground text-sm mt-2 max-w-[250px] font-medium leading-relaxed">Looks like you haven't added any Broadway treats yet.</p>
@@ -155,12 +156,12 @@ export default function CartSheet({
         {location && (
           <div className="bg-primary/10 border border-primary/20 rounded-3xl p-6 flex items-start gap-4">
             <div className="bg-primary text-primary-foreground p-3 rounded-2xl shrink-0">
-               <MapPin weight="fill" size={24} />
+              <MapPin weight="fill" size={24} />
             </div>
             <div>
-               <h5 className="font-black uppercase tracking-widest text-sm text-primary mb-1">Delivering To</h5>
-               <p className="text-xl font-bold text-foreground uppercase tracking-tight">{location.area}, {location.city}</p>
-               <p className="text-muted-foreground text-sm font-medium tracking-wide mt-1">{location.country}</p>
+              <h5 className="font-black uppercase tracking-widest text-sm text-primary mb-1">Delivering To</h5>
+              <p className="text-xl font-bold text-foreground uppercase tracking-tight">{location.area}, {location.city}</p>
+              <p className="text-muted-foreground text-sm font-medium tracking-wide mt-1">{location.country}</p>
             </div>
           </div>
         )}
@@ -236,6 +237,18 @@ export default function CartSheet({
                     </Label>
                 </RadioGroup>
 
+            {orderType === 'delivery' && (
+              <div className="space-y-1.5 animate-in fade-in slide-in-from-top-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Complete Address (House / Flat / Block)</Label>
+                <Input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="e.g. House 42, Street 11..."
+                  className="bg-muted border-border h-14 rounded-2xl focus:ring-primary text-foreground"
+                />
+              </div>
+            )}
+          </div>
                 {orderType === 'DELIVERY' && (
                     <div className="space-y-1.5 animate-in fade-in slide-in-from-top-2">
                         <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Complete Address (House / Flat / Block)</Label>
@@ -251,16 +264,16 @@ export default function CartSheet({
         </div>
 
         <div className="space-y-1.5">
-            <div className="flex items-center gap-3 mb-2">
-                <Notepad weight="fill" className="text-primary" size={24} />
-                <h5 className="font-black uppercase tracking-widest text-sm text-muted-foreground">Special Instructions</h5>
-            </div>
-            <Textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Allergy notes, gate codes, or delivery preferences..."
-                className="bg-muted border-border min-h-[100px] rounded-2xl focus:ring-primary text-foreground p-4"
-            />
+          <div className="flex items-center gap-3 mb-2">
+            <Notepad weight="fill" className="text-primary" size={24} />
+            <h5 className="font-black uppercase tracking-widest text-sm text-muted-foreground">Special Instructions</h5>
+          </div>
+          <Textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Allergy notes, gate codes, or delivery preferences..."
+            className="bg-muted border-border min-h-[100px] rounded-2xl focus:ring-primary text-foreground p-4"
+          />
         </div>
 
         <div className="bg-card rounded-[2.5rem] p-8 md:p-12">
@@ -292,14 +305,14 @@ export default function CartSheet({
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="ghost" onClick={() => setCheckoutMode(false)} className="h-16 flex-1 text-muted-foreground hover:text-foreground uppercase font-black tracking-widest">
-                Back to Menu
-            </Button>
-            <Button onClick={handlePlaceOrder} className="h-16 flex-[2] bg-primary text-primary-foreground font-black uppercase text-xl tracking-wider rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.01] transition-all">
-                Confirm Order
-            </Button>
+          <Button variant="ghost" onClick={() => setCheckoutMode(false)} className="h-16 flex-1 text-muted-foreground hover:text-foreground uppercase font-black tracking-widest">
+            Back to Menu
+          </Button>
+          <Button onClick={handlePlaceOrder} className="h-16 flex-[2] bg-primary text-primary-foreground font-black uppercase text-xl tracking-wider rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.01] transition-all">
+            Confirm Order
+          </Button>
         </div>
-      </div>
+      </div >
     )
   }
 
@@ -309,52 +322,52 @@ export default function CartSheet({
         {cart.map(item => (
           <div key={item.menuItem.id} className="flex items-center gap-6 p-4 rounded-[2rem] bg-card border border-border hover:border-border/80 transition-all group">
             <div className="relative w-24 h-24 overflow-hidden rounded-2xl shrink-0">
-                <img
-                    src={item.menuItem.image}
-                    alt={item.menuItem.name}
-                    className="w-full h-full object-cover transition-transform group-hover:scale-110"
-                />
+              <img
+                src={item.menuItem.image}
+                alt={item.menuItem.name}
+                className="w-full h-full object-cover transition-transform group-hover:scale-110"
+              />
             </div>
             <div className="flex-1 min-w-0">
-               <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-1 block">Selected Treat</span>
-               <h4 className="font-black text-foreground text-lg uppercase tracking-tight leading-none mb-2">{item.menuItem.name}</h4>
-               <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
-                 Rs. {item.menuItem.price.toLocaleString()}
-               </p>
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-1 block">Selected Treat</span>
+              <h4 className="font-black text-foreground text-lg uppercase tracking-tight leading-none mb-2">{item.menuItem.name}</h4>
+              <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                Rs. {item.menuItem.price.toLocaleString()}
+              </p>
             </div>
-            
+
             <div className="flex flex-col items-end gap-3">
-                <div className="text-xl font-black text-foreground font-mono tracking-tighter italic">
-                    Rs. {(item.menuItem.price * item.quantity).toLocaleString()}
-                </div>
-                <div className="flex items-center gap-3 bg-muted p-1.5 rounded-xl border border-border shadow-inner">
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 rounded-lg hover:bg-background text-foreground"
-                        onClick={() => updateQuantity(item.menuItem.id, -1)}
-                    >
-                        <Minus size={14} weight="bold" />
-                    </Button>
-                    <span className="text-sm font-black text-foreground w-6 text-center">{item.quantity}</span>
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 rounded-lg hover:bg-primary hover:text-primary-foreground bg-primary/10 text-primary"
-                        onClick={() => updateQuantity(item.menuItem.id, 1)}
-                    >
-                        <Plus size={14} weight="bold" />
-                    </Button>
-                </div>
+              <div className="text-xl font-black text-foreground font-mono tracking-tighter italic">
+                Rs. {(item.menuItem.price * item.quantity).toLocaleString()}
+              </div>
+              <div className="flex items-center gap-3 bg-muted p-1.5 rounded-xl border border-border shadow-inner">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 rounded-lg hover:bg-background text-foreground"
+                  onClick={() => updateQuantity(item.menuItem.id, -1)}
+                >
+                  <Minus size={14} weight="bold" />
+                </Button>
+                <span className="text-sm font-black text-foreground w-6 text-center">{item.quantity}</span>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 rounded-lg hover:bg-primary hover:text-primary-foreground bg-primary/10 text-primary"
+                  onClick={() => updateQuantity(item.menuItem.id, 1)}
+                >
+                  <Plus size={14} weight="bold" />
+                </Button>
+              </div>
             </div>
-            
+
             <Button
-                size="icon"
-                variant="ghost"
-                className="h-10 w-10 text-red-500/50 hover:text-red-500 hover:bg-red-500/5 transition-all"
-                onClick={() => removeItem(item.menuItem.id)}
+              size="icon"
+              variant="ghost"
+              className="h-10 w-10 text-red-500/50 hover:text-red-500 hover:bg-red-500/5 transition-all"
+              onClick={() => removeItem(item.menuItem.id)}
             >
-                <Trash size={18} weight="bold" />
+              <Trash size={18} weight="bold" />
             </Button>
           </div>
         ))}
@@ -362,26 +375,26 @@ export default function CartSheet({
 
       <div className="bg-card rounded-[2.5rem] p-8 md:p-12 space-y-8">
         <div className="space-y-4">
-            <div className="flex justify-between items-center">
-                <span className="text-sm font-black uppercase tracking-[0.2em] text-muted-foreground">Basket Subtotal</span>
-                <span className="text-3xl font-black text-foreground font-mono tracking-tighter italic">Rs. {subtotal.toLocaleString()}</span>
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-black uppercase tracking-[0.2em] text-muted-foreground">Basket Subtotal</span>
+            <span className="text-3xl font-black text-foreground font-mono tracking-tighter italic">Rs. {subtotal.toLocaleString()}</span>
+          </div>
+          {subtotal < settings.minimumOrder && (
+            <div className="flex items-center gap-3 text-red-500 animate-pulse">
+              <Trash size={16} weight="fill" />
+              <p className="text-[10px] font-black uppercase tracking-widest">
+                Minimum Rs. {settings.minimumOrder.toLocaleString()} Required
+              </p>
             </div>
-            {subtotal < settings.minimumOrder && (
-                <div className="flex items-center gap-3 text-red-500 animate-pulse">
-                    <Trash size={16} weight="fill" />
-                    <p className="text-[10px] font-black uppercase tracking-widest">
-                        Minimum Rs. {settings.minimumOrder.toLocaleString()} Required
-                    </p>
-                </div>
-            )}
+          )}
         </div>
 
         <Button
-            onClick={() => setCheckoutMode(true)}
-            disabled={subtotal < settings.minimumOrder}
-            className="w-full h-20 bg-primary text-primary-foreground font-black uppercase text-xl lg:text-2xl tracking-[0.1em] rounded-3xl shadow-2xl shadow-primary/20 hover:scale-[1.01] transition-all disabled:opacity-20 disabled:grayscale"
+          onClick={() => setCheckoutMode(true)}
+          disabled={subtotal < settings.minimumOrder}
+          className="w-full h-20 bg-primary text-primary-foreground font-black uppercase text-xl lg:text-2xl tracking-[0.1em] rounded-3xl shadow-2xl shadow-primary/20 hover:scale-[1.01] transition-all disabled:opacity-20 disabled:grayscale"
         >
-            Proceed to Checkout
+          Proceed to Checkout
         </Button>
         <p className="text-center text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em]">Taxes & Fees calculated on next step</p>
       </div>

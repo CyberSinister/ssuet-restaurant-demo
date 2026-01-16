@@ -26,7 +26,7 @@ function App() {
     async function syncData() {
       try {
         console.log('Syncing data from API...')
-        
+
         // 1. Fetch Categories
         const catRes = await fetch('/api/categories?includeInactive=true')
         if (catRes.ok) {
@@ -53,7 +53,7 @@ function App() {
         if (ordersRes.ok) {
           const ordersData = await ordersRes.json()
           if (ordersData.data && Array.isArray(ordersData.data)) {
-             setOrders(ordersData.data)
+            setOrders(ordersData.data)
           }
         }
       } catch (error) {
@@ -62,7 +62,7 @@ function App() {
     }
 
     syncData()
-  }, [])
+  }, [setCategories, setMenuItems, setOrders, setSettings])
 
   if (!menuItems || !orders || !settings || !categories || !heroConfig || !promotions || !featuredItems || !banners || !landingPageConfig) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>

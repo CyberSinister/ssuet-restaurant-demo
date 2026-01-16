@@ -21,8 +21,8 @@ interface AdminHeaderProps {
   isCollapsed?: boolean
 }
 
-export function AdminHeader({ 
-  title = 'Dashboard', 
+export function AdminHeader({
+  title = 'Dashboard',
   subtitle,
   restaurantName = 'Restaurant',
   isCollapsed = false
@@ -31,7 +31,7 @@ export function AdminHeader({
 
   const handleLogout = async () => {
     await signOut({ redirect: false })
-    router.push('/admin/login')
+    router.push('/login')
   }
 
   return (
@@ -53,8 +53,8 @@ export function AdminHeader({
         {/* Right Side - Actions */}
         <div className="flex items-center gap-3">
           {/* Search Button */}
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             className="h-9 w-9 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] text-muted-foreground hover:text-white hover:bg-[#2a2a2a] hover:border-[#3a3a3a] transition-all"
           >
@@ -62,8 +62,8 @@ export function AdminHeader({
           </Button>
 
           {/* Notifications */}
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             className="h-9 w-9 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] text-muted-foreground hover:text-white hover:bg-[#2a2a2a] hover:border-[#3a3a3a] transition-all relative"
           >
@@ -92,14 +92,14 @@ export function AdminHeader({
             <DropdownMenuContent align="end" className="w-56 bg-[#1a1a1a] border-[#2a2a2a]">
               <DropdownMenuLabel className="text-white">My Account</DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-[#2a2a2a]" />
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 className="text-muted-foreground hover:text-white hover:bg-[#2a2a2a] focus:bg-[#2a2a2a] cursor-pointer"
                 onClick={() => router.push('/admin?tab=settings')}
               >
                 <Gear className="mr-2 h-4 w-4" />
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 className="text-muted-foreground hover:text-white hover:bg-[#2a2a2a] focus:bg-[#2a2a2a] cursor-pointer"
                 onClick={() => router.push('/')}
               >
@@ -107,7 +107,7 @@ export function AdminHeader({
                 View Store
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-[#2a2a2a]" />
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 className="text-red-400 hover:text-red-300 hover:bg-red-500/10 focus:bg-red-500/10 cursor-pointer"
                 onClick={handleLogout}
               >

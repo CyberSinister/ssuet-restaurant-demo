@@ -1,14 +1,14 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { 
-  House, 
-  ShoppingCart, 
-  ForkKnife, 
-  Tag, 
+import {
+  House,
+  ShoppingCart,
+  ForkKnife,
+  Tag,
   MapPin,
-  Gear, 
-  PaintBrush, 
+  Gear,
+  PaintBrush,
   Layout,
   ChartPie,
   SignOut,
@@ -46,8 +46,8 @@ interface AdminSidebarProps {
   onToggle: () => void
 }
 
-export function AdminSidebar({ 
-  activeTab = 'dashboard', 
+export function AdminSidebar({
+  activeTab = 'dashboard',
   pendingOrdersCount = 0,
   isCollapsed,
   onToggle
@@ -60,7 +60,7 @@ export function AdminSidebar({
 
   const handleLogout = async () => {
     await signOut({ redirect: false })
-    router.push('/admin/login')
+    router.push('/login')
   }
 
   // Update nav items with badges
@@ -70,7 +70,7 @@ export function AdminSidebar({
   }))
 
   return (
-    <aside 
+    <aside
       className={cn(
         "fixed left-0 top-0 h-full bg-card border-r border-border flex flex-col z-50 transition-all duration-300 ease-in-out",
         isCollapsed ? "w-20" : "w-64"
@@ -114,10 +114,10 @@ export function AdminSidebar({
         </Button>
         {!isCollapsed && <ThemeSwitcher />}
       </div>
-      
+
       {isCollapsed && (
         <div className="px-3 py-2 border-b border-border flex justify-center">
-           <ThemeSwitcher />
+          <ThemeSwitcher />
         </div>
       )}
 
@@ -130,29 +130,29 @@ export function AdminSidebar({
             </span>
           )}
         </div>
-        
+
         {navItemsWithBadges.map((item) => {
           const isActive = activeTab === item.id || (item.id === 'dashboard' && activeTab === 'dashboard')
-          
+
           return (
             <div key={item.id} className="relative group">
               <button
                 onClick={() => handleNavClick(item)}
                 className={cn(
                   "w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group",
-                  isActive 
-                    ? "bg-primary/10 text-primary border border-primary/20" 
+                  isActive
+                    ? "bg-primary/10 text-primary border border-primary/20"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent",
                   isCollapsed && "justify-center px-0"
                 )}
               >
                 <div className="relative">
-                  <item.icon 
-                    weight={isActive ? "fill" : "regular"} 
+                  <item.icon
+                    weight={isActive ? "fill" : "regular"}
                     className={cn(
                       "h-5 w-5 transition-colors flex-shrink-0",
                       isActive ? "text-primary" : "group-hover:text-primary/70"
-                    )} 
+                    )}
                   />
                   {/* Badge */}
                   {item.badge !== undefined && item.badge > 0 && (
@@ -161,7 +161,7 @@ export function AdminSidebar({
                     </span>
                   )}
                 </div>
-                
+
                 {!isCollapsed && (
                   <span className={cn(
                     "text-sm font-medium truncate",
@@ -170,7 +170,7 @@ export function AdminSidebar({
                     {item.label}
                   </span>
                 )}
-                
+
                 {/* Active indicator */}
                 {isActive && (
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 bg-primary rounded-r-full" />

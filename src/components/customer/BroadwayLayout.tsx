@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -50,7 +51,7 @@ function HeroSlider({ banners }: { banners: Banner[] }) {
   return (
     <div className="relative w-full h-[200px] md:h-[300px] lg:h-[400px] overflow-hidden group">
       {/* Slides */}
-      <div 
+      <div
         className="flex h-full transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
@@ -59,7 +60,7 @@ function HeroSlider({ banners }: { banners: Banner[] }) {
             key={banner.id}
             className="min-w-full h-full relative flex-shrink-0"
           >
-            <div 
+            <div
               className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: `url(${banner.image})` }}
             />
@@ -116,14 +117,14 @@ function HeroSlider({ banners }: { banners: Banner[] }) {
 }
 
 // Category Navigation Bar
-function CategoryBar({ 
-  categories, 
-  activeCategory, 
-  onCategoryClick 
-}: { 
+function CategoryBar({
+  categories,
+  activeCategory,
+  onCategoryClick
+}: {
   categories: Category[]
   activeCategory: string | null
-  onCategoryClick: (categoryId: string) => void 
+  onCategoryClick: (categoryId: string) => void
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({})
@@ -140,8 +141,8 @@ function CategoryBar({
   }, [activeCategory])
 
   return (
-    <div className="sticky top-[40px] z-30 bg-background/95 backdrop-blur-sm border-b border-border left-0 right-0">
-      <div 
+    <div className="sticky top-[44px] z-30 bg-background/95 backdrop-blur-sm border-b border-border w-full">
+      <div
         ref={scrollRef}
         className="overflow-x-auto scrollbar-hide"
       >
@@ -168,12 +169,12 @@ function CategoryBar({
 }
 
 // Product Card
-function ProductCard({ 
-  item, 
+function ProductCard({
+  item,
   cartQuantity,
   onAdd,
-  onUpdateQuantity 
-}: { 
+  onUpdateQuantity
+}: {
   item: MenuItem
   cartQuantity: number
   onAdd: () => void
@@ -211,7 +212,7 @@ function ProductCard({
           <span className="text-accent font-black text-lg md:text-xl">
             Rs. {item.price.toLocaleString()}
           </span>
-          
+
           {item.available && (
             cartQuantity > 0 ? (
               <div className="flex items-center gap-2 bg-muted rounded-lg p-1">
@@ -247,13 +248,13 @@ function ProductCard({
 }
 
 // Category Section with Products
-function CategorySection({ 
-  category, 
-  items, 
+function CategorySection({
+  category,
+  items,
   cart,
   onAddToCart,
   onUpdateQuantity
-}: { 
+}: {
   category: Category
   items: MenuItem[]
   cart: CartItem[]
@@ -268,7 +269,7 @@ function CategorySection({
   if (items.length === 0) return null
 
   return (
-    <section id={`category-${category.id}`} className="py-6 md:py-8 scroll-mt-20">
+    <section id={`category-${category.id}`} className="py-6 md:py-8 scroll-mt-32">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center gap-4 mb-4 md:mb-6">
           <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-foreground uppercase tracking-tight">
@@ -277,7 +278,7 @@ function CategorySection({
           <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent" />
           <span className="text-sm text-muted-foreground">{items.length} items</span>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
           {items.map(item => (
             <ProductCard
@@ -308,6 +309,15 @@ export function BroadwayLayout({
     categories[0]?.id || null
   )
 
+  // Group items by category
+  const itemsByCategory = categories.reduce((acc, category) => {
+    acc[category.id] = menuItems.filter(item => item.categoryId === category.id)
+    return acc
+  }, {} as Record<string, MenuItem[]>)
+
+  // Filter categories that have items
+  const categoriesWithItems = categories.filter(c => itemsByCategory[c.id]?.length > 0)
+
   // Scroll Spy Logic
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -321,25 +331,25 @@ export function BroadwayLayout({
         })
       },
       {
-        rootMargin: '-50% 0px -50% 0px', // Trigger when section is in middle of viewport
+        rootMargin: '-110px 0px -70% 0px', // Trigger when section is near the sticky header
         threshold: 0
       }
     )
 
-    categories.forEach((cat) => {
+    categoriesWithItems.forEach((cat) => {
       const element = document.getElementById(`category-${cat.id}`)
       if (element) observer.observe(element)
     })
 
     return () => observer.disconnect()
-  }, [categories])
+  }, [categoriesWithItems, menuItems]) // Added menuItems to re-trigger when data loads
 
   const handleCategoryClick = (categoryId: string) => {
     setActiveCategory(categoryId)
     const element = document.getElementById(`category-${categoryId}`)
     if (element) {
       // Offset for sticky header
-      const y = element.getBoundingClientRect().top + window.scrollY - 120 
+      const y = element.getBoundingClientRect().top + window.scrollY - 120
       window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }
@@ -349,12 +359,12 @@ export function BroadwayLayout({
       onRequireLocation()
       return
     }
-    
+
     setCart((prev) => {
       const existing = prev.find(c => c.menuItem.id === item.id)
       if (existing) {
-        return prev.map(c => 
-          c.menuItem.id === item.id 
+        return prev.map(c =>
+          c.menuItem.id === item.id
             ? { ...c, quantity: c.quantity + 1 }
             : c
         )
@@ -366,8 +376,8 @@ export function BroadwayLayout({
   const handleUpdateQuantity = (itemId: string, delta: number) => {
     setCart((prev) => {
       return prev
-        .map(c => 
-          c.menuItem.id === itemId 
+        .map(c =>
+          c.menuItem.id === itemId
             ? { ...c, quantity: Math.max(0, c.quantity + delta) }
             : c
         )
@@ -375,14 +385,6 @@ export function BroadwayLayout({
     })
   }
 
-  // Group items by category
-  const itemsByCategory = categories.reduce((acc, category) => {
-    acc[category.id] = menuItems.filter(item => item.categoryId === category.id)
-    return acc
-  }, {} as Record<string, MenuItem[]>)
-
-  // Filter categories that have items
-  const categoriesWithItems = categories.filter(c => itemsByCategory[c.id]?.length > 0)
 
   return (
     <div className="min-h-screen bg-background w-full">
@@ -390,8 +392,8 @@ export function BroadwayLayout({
       <HeroSlider banners={banners} />
 
       {/* Category Navigation */}
-      <CategoryBar 
-        categories={categoriesWithItems} 
+      <CategoryBar
+        categories={categoriesWithItems}
         activeCategory={activeCategory}
         onCategoryClick={handleCategoryClick}
       />

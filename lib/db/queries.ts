@@ -231,6 +231,7 @@ export async function getOrCreateCustomer(data: {
   name: string
   email: string
   phone: string
+  password?: string
 }) {
   // Try to find existing customer by email or phone
   const existing = await prisma.customer.findFirst({

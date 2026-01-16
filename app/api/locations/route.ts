@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
 import { prisma } from '@/lib/db/prisma'
 import {
   withAuthAndBodyValidation,
@@ -35,7 +36,12 @@ export const POST = withAuthAndBodyValidation(
       const location = await prisma.location.create({
         data: validatedBody as any
       })
-      return NextResponse.json(location, { status: 201 })
+      const parsedLocation = {
+        ...location,
+        countryImages: location.countryImages ? JSON.parse(location.countryImages) : [],
+        cityImages: location.cityImages ? JSON.parse(location.cityImages) : []
+      }
+      return NextResponse.json(parsedLocation, { status: 201 })
     } catch (error: any) {
       console.error('Error creating location:', error)
       if (error.code === 'P2002') {

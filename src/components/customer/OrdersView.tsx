@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect, useMemo } from 'react'
 import { Order, OrderStatus } from '@/lib/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -10,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 
 interface OrdersViewProps {
-  orders: Order[]
+  orders?: Order[]
   customer?: any
 }
 
@@ -24,7 +25,7 @@ const statusConfig: Record<OrderStatus, { label: string; variant: 'default' | 's
   CANCELLED: { label: 'Cancelled', variant: 'destructive' },
 }
 
-export default function OrdersView({ orders, customer }: OrdersViewProps) {
+export default function OrdersView({ orders = [], customer }: OrdersViewProps) {
   const [lookupEmail, setLookupEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [foundOrders, setFoundOrders] = useState<Order[]>([])
@@ -32,21 +33,21 @@ export default function OrdersView({ orders, customer }: OrdersViewProps) {
   // Auto-fetch orders if customer is logged in
   useEffect(() => {
     if (customer?.email) {
-        const fetchAuto = async () => {
-            setIsLoading(true)
-            try {
-                const res = await fetch(`/api/orders?email=${encodeURIComponent(customer.email)}`)
-                if (res.ok) {
-                    const data = await res.json()
-                    setFoundOrders(data.data)
-                }
-            } catch (err) {
-                console.error("Failed to auto-fetch orders", err)
-            } finally {
-                setIsLoading(false)
-            }
+      const fetchAuto = async () => {
+        setIsLoading(true)
+        try {
+          const res = await fetch(`/api/orders?email=${encodeURIComponent(customer.email)}`)
+          if (res.ok) {
+            const data = await res.json()
+            setFoundOrders(data.data)
+          }
+        } catch (err) {
+          console.error("Failed to auto-fetch orders", err)
+        } finally {
+          setIsLoading(false)
         }
-        fetchAuto()
+      }
+      fetchAuto()
     }
   }, [customer])
 
@@ -61,7 +62,7 @@ export default function OrdersView({ orders, customer }: OrdersViewProps) {
         const data = await res.json()
         setFoundOrders(data.data)
         if (data.data.length === 0) {
-            toast.error('No orders found for this email')
+          toast.error('No orders found for this email')
         }
       } else {
         toast.error('Failed to fetch orders')
@@ -77,16 +78,16 @@ export default function OrdersView({ orders, customer }: OrdersViewProps) {
     // Merge session orders (props) and fetched history (foundOrders)
     // Create a map to deduplicate by ID
     const orderMap = new Map<string, Order>()
-    
+
     // Add history first
     foundOrders.forEach(o => orderMap.set(o.id, o))
-    
+
     // Add/Overwrite with session orders (newer)
     orders.forEach(o => orderMap.set(o.id, o))
-    
+
     // Convert to array and sort by date desc
     return Array.from(orderMap.values()).sort((a, b) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     })
   }, [orders, foundOrders])
 
@@ -94,31 +95,31 @@ export default function OrdersView({ orders, customer }: OrdersViewProps) {
     return (
       <div className="flex flex-col items-center justify-center py-12 space-y-8 animate-in fade-in zoom-in duration-500">
         <div className="text-center space-y-2">
-            <h2 className="text-3xl font-black uppercase tracking-tighter text-foreground">Track Your Order</h2>
-            <p className="text-muted-foreground">Enter your email address to view your order history</p>
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-foreground">Track Your Order</h2>
+          <p className="text-muted-foreground">Enter your email address to view your order history</p>
         </div>
 
         <Card className="w-full max-w-md bg-card border-border">
-            <CardContent className="pt-6">
-                <form onSubmit={fetchOrdersByEmail} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="email" className="text-[10px] uppercase font-black tracking-widest text-muted-foreground ml-1">Email Address</Label>
-                        <div className="flex gap-2">
-                            <Input 
-                                id="email"
-                                type="email" 
-                                placeholder="john@example.com" 
-                                value={lookupEmail}
-                                onChange={(e) => setLookupEmail(e.target.value)}
-                                className="bg-muted border-border text-foreground placeholder:text-muted-foreground h-10"
-                            />
-                            <Button type="submit" disabled={isLoading} className="bg-primary text-primary-foreground font-bold h-10">
-                                {isLoading ? 'Searching...' : 'Track'}
-                            </Button>
-                        </div>
-                    </div>
-                </form>
-            </CardContent>
+          <CardContent className="pt-6">
+            <form onSubmit={fetchOrdersByEmail} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-[10px] uppercase font-black tracking-widest text-muted-foreground ml-1">Email Address</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="john@example.com"
+                    value={lookupEmail}
+                    onChange={(e) => setLookupEmail(e.target.value)}
+                    className="bg-muted border-border text-foreground placeholder:text-muted-foreground h-10"
+                  />
+                  <Button type="submit" disabled={isLoading} className="bg-primary text-primary-foreground font-bold h-10">
+                    {isLoading ? 'Searching...' : 'Track'}
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </CardContent>
         </Card>
       </div>
     )
@@ -153,7 +154,7 @@ export default function OrdersView({ orders, customer }: OrdersViewProps) {
                 {(order.items || (order as any).orderItems || []).map((item: any, index: number) => (
                   <div key={index} className="flex justify-between text-sm text-foreground/80">
                     <span className="flex items-center gap-2">
-                      <span className="font-mono text-accent font-bold">{item.quantity}x</span> 
+                      <span className="font-mono text-accent font-bold">{item.quantity}x</span>
                       <span className="uppercase tracking-wide text-xs font-bold">{item.menuItem.name}</span>
                     </span>
                     <span className="font-mono text-muted-foreground">
@@ -175,29 +176,29 @@ export default function OrdersView({ orders, customer }: OrdersViewProps) {
                   <span className="font-mono">Rs. {order.tax.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                    <span className="text-foreground font-black uppercase tracking-widest text-sm">Total</span>
-                    <span className="text-accent font-black font-mono text-xl italic tracking-tighter">Rs. {order.total.toLocaleString()}</span>
+                  <span className="text-foreground font-black uppercase tracking-widest text-sm">Total</span>
+                  <span className="text-accent font-black font-mono text-xl italic tracking-tighter">Rs. {order.total.toLocaleString()}</span>
                 </div>
               </div>
 
               {/* Order Context Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 bg-muted/30 -mx-6 -mb-6 p-6 border-t border-border">
-                 <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Order Type</p>
-                    <p className="text-foreground font-bold uppercase text-xs tracking-wide">{order.orderType}</p>
-                 </div>
-                 {order.address && (
-                 <div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Order Type</p>
+                  <p className="text-foreground font-bold uppercase text-xs tracking-wide">{order.orderType}</p>
+                </div>
+                {order.address && (
+                  <div>
                     <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Location</p>
                     <p className="text-foreground font-bold uppercase text-xs tracking-wide">{order.address}</p>
-                 </div>
-                 )}
-                 {order.notes && (
-                 <div className="col-span-2">
+                  </div>
+                )}
+                {order.notes && (
+                  <div className="col-span-2">
                     <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Notes</p>
                     <p className="text-muted-foreground text-xs italic">"{order.notes}"</p>
-                 </div>
-                 )}
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

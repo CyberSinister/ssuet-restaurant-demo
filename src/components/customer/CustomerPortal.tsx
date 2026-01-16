@@ -53,48 +53,48 @@ export default function CustomerPortal({
 
   /* Location State */
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false)
-  const [location, setLocation] = useLocalStorage<{type: string, country: string, city: string, area: string} | null>('selected-location', null)
+  const [location, setLocation] = useLocalStorage<{ type: string, country: string, city: string, area: string } | null>('selected-location', null)
 
   return (
     <div className="min-h-screen bg-background flex">
-      <SidebarNav 
-        currentView={view} 
+      <SidebarNav
+        currentView={view}
         setView={(v) => {
-           if (v === 'cart') {
-             setIsCartOpen(true)
-           } else if (v === 'landing' || v === 'menu') {
-             setView('home')
-           } else {
-             setView(v as 'home' | 'orders' | 'profile' | 'locations')
-           }
-        }} 
+          if (v === 'cart') {
+            setIsCartOpen(true)
+          } else if (v === 'landing' || v === 'menu') {
+            setView('home')
+          } else {
+            setView(v as 'home' | 'orders' | 'profile' | 'locations')
+          }
+        }}
         cartCount={cartItemCount}
       />
-      
+
       {/* Main Content Area */}
-      <div className="flex-1 ml-20 md:ml-24 flex flex-col min-h-screen">
-        
+      <div className="flex-1 ml-20 md:ml-24 flex flex-col min-h-screen min-w-0">
+
         {/* Top Location Bar */}
         {!location && (
-           <div 
-             className="bg-primary text-black py-2 px-4 text-center text-sm font-black tracking-widest sticky top-0 z-40 cursor-pointer hover:bg-primary/90" 
-             onClick={() => setIsLocationModalOpen(true)}
-           >
-             SELECT YOUR LOCATION TO ORDER
-           </div>
+          <div
+            className="bg-primary text-black py-3 px-4 text-center text-sm font-black tracking-widest sticky top-0 z-40 cursor-pointer hover:bg-primary/90"
+            onClick={() => setIsLocationModalOpen(true)}
+          >
+            SELECT YOUR LOCATION TO ORDER
+          </div>
         )}
         {location && (
-           <div className="bg-primary text-black py-2 px-4 flex justify-center items-center gap-2 text-sm font-bold tracking-wide sticky top-0 z-40">
-              <span className="uppercase">{location.type}: {location.area}, {location.city}</span>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-6 text-[10px] bg-black/20 hover:bg-black/30 text-black border-none" 
-                onClick={() => setIsLocationModalOpen(true)}
-              >
-                CHANGE
-              </Button>
-           </div>
+          <div className="bg-primary text-black py-3 px-4 flex justify-center items-center gap-2 text-sm font-bold tracking-wide sticky top-0 z-40">
+            <span className="uppercase">{location.type}: {location.area}, {location.city}</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 text-[10px] bg-black/20 hover:bg-black/30 text-black border-none"
+              onClick={() => setIsLocationModalOpen(true)}
+            >
+              CHANGE
+            </Button>
+          </div>
         )}
 
         <main className="flex-1 w-full bg-background">
@@ -112,15 +112,15 @@ export default function CustomerPortal({
               onRequireLocation={() => setIsLocationModalOpen(true)}
             />
           ) : view === 'orders' ? (
-             <div className="max-w-4xl mx-auto px-4 py-8">
-               <OrdersView orders={orders} customer={customer} />
-             </div>
+            <div className="max-w-4xl mx-auto px-4 py-8">
+              <OrdersView orders={orders} customer={customer} />
+            </div>
           ) : view === 'profile' ? (
-             <div className="max-w-6xl mx-auto px-4 py-8">
-               <ProfileView customer={customer} setCustomer={setCustomer} sessionOrders={orders} />
-             </div>
+            <div className="max-w-6xl mx-auto px-4 py-8">
+              <ProfileView customer={customer} setCustomer={setCustomer} sessionOrders={orders} />
+            </div>
           ) : view === 'locations' ? (
-             <LocationsView />
+            <LocationsView />
           ) : null}
         </main>
       </div>
@@ -131,7 +131,7 @@ export default function CustomerPortal({
           {/* Fixed Handle and Header */}
           <div className="shrink-0 bg-card/80 backdrop-blur-xl border-b border-border pt-4 pb-6 z-50 relative">
             <div className="w-16 h-1 bg-muted rounded-full mx-auto mb-6" />
-            
+
             <SheetClose className="absolute top-8 right-8 p-2 rounded-xl bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-all focus:outline-none">
               <X size={24} weight="bold" />
             </SheetClose>
@@ -163,11 +163,11 @@ export default function CustomerPortal({
       </Sheet>
 
       {/* Location Modal */}
-      <LocationModal 
-        open={isLocationModalOpen} 
-        onOpenChange={setIsLocationModalOpen} 
+      <LocationModal
+        open={isLocationModalOpen}
+        onOpenChange={setIsLocationModalOpen}
         onLocationConfirm={(details) => {
-           setLocation(details)
+          setLocation(details)
         }}
       />
     </div>

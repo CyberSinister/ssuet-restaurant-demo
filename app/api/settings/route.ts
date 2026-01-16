@@ -1,6 +1,8 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/settings - Get restaurant settings
 export async function GET(_request: NextRequest) {
   try {
@@ -50,7 +52,7 @@ export async function PUT(request: NextRequest) {
     const { prisma } = await import('@/lib/db/prisma')
     const { validateBody } = await import('@/lib/validations/middleware')
     const { restaurantSettingsSchema } = await import('@/lib/validations/schemas')
-    
+
     const validatedBody = await validateBody(request, restaurantSettingsSchema)
     const { name, phone, email, address, hours, deliveryFee, minimumOrder, taxRate } =
       validatedBody

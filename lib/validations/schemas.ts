@@ -263,9 +263,9 @@ export const locationSchema = z.object({
   hours: z.string().optional().nullable(),
   active: z.boolean().default(true),
   slug: z.string().min(1, 'Slug is required').max(100, 'Slug must not exceed 100 characters'),
-}).strict()
+})
 
-export const locationUpdateSchema = locationSchema.partial().strict()
+export const locationUpdateSchema = locationSchema.partial()
 
 export type LocationInput = z.infer<typeof locationSchema>
 export type LocationUpdateInput = z.infer<typeof locationUpdateSchema>

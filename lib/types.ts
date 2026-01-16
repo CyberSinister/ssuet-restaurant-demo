@@ -77,6 +77,8 @@ export interface Location {
   phone?: string
   email?: string
   image?: string
+  countryImages?: string[]
+  cityImages?: string[]
   latitude?: number
   longitude?: number
   hours?: string

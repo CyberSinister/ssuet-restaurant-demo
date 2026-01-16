@@ -15,10 +15,10 @@ import LandingPageManagement from '@/lib/components/admin/LandingPageManagement'
 import BrandingManagement from '@/lib/components/admin/BrandingManagement'
 import LocationsManagement from '@/lib/components/admin/LocationsManagement'
 import { Skeleton } from '@/components/ui/skeleton'
-import { 
-  ShoppingCart, 
-  ForkKnife, 
-  Tag, 
+import {
+  ShoppingCart,
+  ForkKnife,
+  Tag,
   ChartLine,
   TrendUp,
   Users,
@@ -43,7 +43,7 @@ function AdminDashboardContent() {
   }
 
   if (status === 'unauthenticated') {
-    router.push('/admin/login')
+    router.push('/login')
     return null
   }
 
@@ -96,7 +96,7 @@ function AdminDashboardContent() {
       case 'settings':
         return <SettingsManagement />
       default:
-        return <DashboardOverview 
+        return <DashboardOverview
           orders={orders}
           ordersCount={orders?.length || 0}
           pendingOrdersCount={pendingOrders.length}
@@ -134,13 +134,13 @@ interface DashboardOverviewProps {
   totalRevenue: number
 }
 
-function DashboardOverview({ 
+function DashboardOverview({
   orders,
-  ordersCount, 
-  pendingOrdersCount, 
-  menuItemsCount, 
+  ordersCount,
+  pendingOrdersCount,
+  menuItemsCount,
   categoriesCount,
-  totalRevenue 
+  totalRevenue
 }: DashboardOverviewProps) {
   const router = useRouter()
 
@@ -188,7 +188,7 @@ function DashboardOverview({
   ]
 
   // Get recent 5 orders sorted by date
-  const recentActivity = orders 
+  const recentActivity = orders
     ? [...orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5)
     : []
 
@@ -205,7 +205,7 @@ function DashboardOverview({
           >
             {/* Gradient Overlay */}
             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${card.color} opacity-5 rounded-full translate-x-8 -translate-y-8 group-hover:opacity-10 transition-opacity`} />
-            
+
             {/* Icon */}
             <div className={`${card.bgColor} w-12 h-12 rounded-xl flex items-center justify-center mb-4`}>
               <card.icon className={`h-6 w-6 bg-gradient-to-r ${card.color} bg-clip-text text-foreground`} weight="duotone" />
@@ -214,17 +214,16 @@ function DashboardOverview({
             {/* Content */}
             <p className="text-muted-foreground text-sm mb-1">{card.title}</p>
             <p className="text-2xl font-bold text-foreground mb-2">{card.value}</p>
-            
+
             {/* Change Indicator */}
             <div className="flex items-center gap-1">
               {card.changeType === 'positive' && (
                 <TrendUp className="h-4 w-4 text-green-400" weight="bold" />
               )}
-              <span className={`text-xs font-medium ${
-                card.changeType === 'positive' ? 'text-green-400' :
+              <span className={`text-xs font-medium ${card.changeType === 'positive' ? 'text-green-400' :
                 card.changeType === 'warning' ? 'text-amber-400' :
-                'text-muted-foreground'
-              }`}>
+                  'text-muted-foreground'
+                }`}>
                 {card.change}
               </span>
             </div>
@@ -239,22 +238,22 @@ function DashboardOverview({
           Quick Actions
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <QuickActionButton 
+          <QuickActionButton
             label="View Orders"
             onClick={() => router.push('/admin?tab=orders')}
             icon={ShoppingCart}
           />
-          <QuickActionButton 
+          <QuickActionButton
             label="Add Menu Item"
             onClick={() => router.push('/admin?tab=menu')}
             icon={ForkKnife}
           />
-          <QuickActionButton 
+          <QuickActionButton
             label="Manage Categories"
             onClick={() => router.push('/admin?tab=categories')}
             icon={Tag}
           />
-          <QuickActionButton 
+          <QuickActionButton
             label="Edit Branding"
             onClick={() => router.push('/admin?tab=branding')}
             icon={Users}
@@ -270,35 +269,33 @@ function DashboardOverview({
         </h2>
         <div className="space-y-3">
           {recentActivity.length === 0 ? (
-             <div className="text-center py-8 text-muted-foreground text-sm">No recent activity</div>
+            <div className="text-center py-8 text-muted-foreground text-sm">No recent activity</div>
           ) : (
             recentActivity.map((order) => (
               <div key={order.id} className="flex items-center gap-4 p-3 rounded-xl bg-background border border-border hover:border-primary/20 transition-colors cursor-pointer" onClick={() => router.push('/admin?tab=orders')}>
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                    order.status === 'PENDING' ? 'bg-amber-500/10 text-amber-500' :
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${order.status === 'PENDING' ? 'bg-amber-500/10 text-amber-500' :
                     order.status === 'COMPLETED' ? 'bg-green-500/10 text-green-500' :
-                    'bg-primary/10 text-primary'
-                }`}>
+                      'bg-primary/10 text-primary'
+                  }`}>
                   <ShoppingCart className="h-5 w-5" weight="fill" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-foreground font-medium">
-                      {order.customerName || 'Guest Customer'}
-                      <span className="text-muted-foreground font-normal"> placed a new order</span>
+                    {order.customerName || 'Guest Customer'}
+                    <span className="text-muted-foreground font-normal"> placed a new order</span>
                   </p>
                   <p className="text-xs text-muted-foreground capitalize">
                     {formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })} • {order.orderType}
                   </p>
                 </div>
                 <div className="text-right">
-                    <span className="text-sm font-bold text-foreground block">Rs. {order.total.toLocaleString()}</span>
-                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                        order.status === 'PENDING' ? 'bg-amber-500/10 text-amber-600' :
-                        order.status === 'COMPLETED' ? 'bg-green-500/10 text-green-600' :
+                  <span className="text-sm font-bold text-foreground block">Rs. {order.total.toLocaleString()}</span>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${order.status === 'PENDING' ? 'bg-amber-500/10 text-amber-600' :
+                      order.status === 'COMPLETED' ? 'bg-green-500/10 text-green-600' :
                         'bg-blue-500/10 text-blue-600'
                     }`}>
-                        {order.status}
-                    </span>
+                    {order.status}
+                  </span>
                 </div>
               </div>
             ))
@@ -334,13 +331,13 @@ function AdminDashboardSkeleton() {
         <Skeleton className="h-8 w-48 bg-muted" />
         <Skeleton className="h-4 w-64 mt-2 bg-muted" />
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[...Array(4)].map((_, i) => (
           <Skeleton key={i} className="h-40 rounded-2xl bg-muted" />
         ))}
       </div>
-      
+
       <Skeleton className="h-64 rounded-2xl bg-muted" />
     </div>
   )
