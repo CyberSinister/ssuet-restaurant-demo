@@ -166,15 +166,16 @@ export function isValidPort(port: number): boolean {
  * @returns Formatted status name
  */
 export function getOrderStatusDisplay(
-  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed' | 'cancelled'
+  status: 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'SERVED' | 'COMPLETED' | 'CANCELLED'
 ): string {
   const statusMap = {
-    pending: 'Pending',
-    confirmed: 'Confirmed',
-    preparing: 'Preparing',
-    ready: 'Ready for Pickup',
-    completed: 'Completed',
-    cancelled: 'Cancelled',
+    PENDING: 'Pending',
+    CONFIRMED: 'Confirmed',
+    PREPARING: 'Preparing',
+    READY: 'Ready for Pickup',
+    SERVED: 'Served',
+    COMPLETED: 'Completed',
+    CANCELLED: 'Cancelled',
   }
   return statusMap[status] || status
 }
@@ -185,15 +186,16 @@ export function getOrderStatusDisplay(
  * @returns Badge variant
  */
 export function getOrderStatusVariant(
-  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed' | 'cancelled'
+  status: 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'SERVED' | 'COMPLETED' | 'CANCELLED'
 ): 'default' | 'secondary' | 'destructive' | 'outline' {
   const variantMap = {
-    pending: 'secondary' as const,
-    confirmed: 'default' as const,
-    preparing: 'default' as const,
-    ready: 'default' as const,
-    completed: 'outline' as const,
-    cancelled: 'destructive' as const,
+    PENDING: 'secondary' as const,
+    CONFIRMED: 'default' as const,
+    PREPARING: 'default' as const,
+    READY: 'default' as const,
+    SERVED: 'default' as const,
+    COMPLETED: 'outline' as const,
+    CANCELLED: 'destructive' as const,
   }
   return variantMap[status] || 'default'
 }

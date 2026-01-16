@@ -21,7 +21,9 @@ interface AllTheProvidersProps {
   children: ReactNode
 }
 
-function AllTheProviders({ children }: AllTheProvidersProps) {
+// Wrapper for all providers - kept for future use with additional providers
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _AllTheProviders = function AllTheProviders({ children }: AllTheProvidersProps) {
   const queryClient = createTestQueryClient()
 
   return (
@@ -30,6 +32,7 @@ function AllTheProviders({ children }: AllTheProvidersProps) {
     </QueryClientProvider>
   )
 }
+void _AllTheProviders // suppress unused warning
 
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   queryClient?: QueryClient

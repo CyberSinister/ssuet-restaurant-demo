@@ -12,7 +12,7 @@ import {
 // PUT /api/categories/reorder - Reorder categories (admin only)
 export const PUT = withAuthAndBodyValidation(
   categoryReorderSchema,
-  async (request: NextRequest, validatedBody: CategoryReorderInput) => {
+  async (_request: NextRequest, validatedBody: CategoryReorderInput) => {
     try {
       const { categories } = validatedBody
 

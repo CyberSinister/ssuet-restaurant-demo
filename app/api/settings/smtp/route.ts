@@ -2,17 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 import {
   withAuth,
-  withErrorHandling,
   validateBody,
   createErrorResponse,
 } from '@/lib/validations/middleware'
-import {
-  smtpConfigUpdateSchema,
-  type SMTPConfigUpdateInput,
-} from '@/lib/validations/schemas'
+import { smtpConfigUpdateSchema } from '@/lib/validations/schemas'
 
 // GET /api/settings/smtp - Get SMTP configuration (admin only, password masked)
-export const GET = withAuth(async (request: NextRequest) => {
+export const GET = withAuth(async (_request: NextRequest) => {
   try {
     const smtpConfig = await prisma.sMTPConfig.findFirst()
 

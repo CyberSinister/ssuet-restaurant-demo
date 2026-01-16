@@ -1,6 +1,5 @@
 
 import { SidebarNav } from '@/components/customer/SidebarNav'
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCartStore } from '@/lib/stores/cart-store'
 

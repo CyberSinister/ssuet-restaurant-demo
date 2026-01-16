@@ -11,7 +11,10 @@
       "Bash(npm run test:run:*)",
       "Bash(npm run test:coverage:*)",
       "Bash(curl:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(make start:*)",
+      "Bash(docker --version:*)",
+      "Bash(docker compose:*)"
     ],
     "deny": [],
     "ask": []

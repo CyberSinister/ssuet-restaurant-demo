@@ -40,16 +40,17 @@ const getStatusColor = (
   status: string
 ): 'default' | 'secondary' | 'destructive' | 'outline' => {
   switch (status) {
-    case 'pending':
+    case 'PENDING':
       return 'secondary'
-    case 'confirmed':
-    case 'preparing':
+    case 'CONFIRMED':
+    case 'PREPARING':
       return 'default'
-    case 'ready':
+    case 'READY':
+    case 'SERVED':
       return 'outline'
-    case 'completed':
+    case 'COMPLETED':
       return 'outline'
-    case 'cancelled':
+    case 'CANCELLED':
       return 'destructive'
     default:
       return 'default'

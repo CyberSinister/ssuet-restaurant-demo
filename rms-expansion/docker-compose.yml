@@ -1,0 +1,159 @@
+# Docker Compose for RMS Development Environment
+# PostgreSQL + Redis + Optional Services
+
+version: '3.8'
+
+services:
+  # ==========================================================================
+  # PostgreSQL Database
+  # ==========================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: rms_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-rms_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rms_password_123}
+      POSTGRES_DB: ${POSTGRES_DB:-rms_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rms_user} -d ${POSTGRES_DB:-rms_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rms_network
+
+  # ==========================================================================
+  # Redis (Caching, Sessions, Socket.io Adapter, Job Queues)
+  # ==========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: rms_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_password_123}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_password_123}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rms_network
+
+  # ==========================================================================
+  # Redis Commander (Redis GUI - Development Only)
+  # ==========================================================================
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: rms_redis_commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:redis:6379:0:${REDIS_PASSWORD:-redis_password_123}
+    ports:
+      - "${REDIS_COMMANDER_PORT:-8081}:8081"
+    depends_on:
+      - redis
+    networks:
+      - rms_network
+    profiles:
+      - dev-tools
+
+  # ==========================================================================
+  # pgAdmin (PostgreSQL GUI - Development Only)
+  # ==========================================================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: rms_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@rms.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - rms_network
+    profiles:
+      - dev-tools
+
+  # ==========================================================================
+  # MinIO (S3-Compatible Object Storage for uploads)
+  # ==========================================================================
+  minio:
+    image: minio/minio:latest
+    container_name: rms_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_password_123}
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - rms_network
+    profiles:
+      - storage
+
+  # ==========================================================================
+  # BullMQ Dashboard (Job Queue Monitoring)
+  # ==========================================================================
+  bull-board:
+    image: deadly0/bull-board:latest
+    container_name: rms_bull_board
+    restart: unless-stopped
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis_password_123}
+      REDIS_USE_TLS: 'false'
+      BULL_PREFIX: 'bull'
+    ports:
+      - "${BULL_BOARD_PORT:-3001}:3000"
+    depends_on:
+      - redis
+    networks:
+      - rms_network
+    profiles:
+      - dev-tools
+
+# ==========================================================================
+# Networks
+# ==========================================================================
+networks:
+  rms_network:
+    driver: bridge
+    name: rms_network
+
+# ==========================================================================
+# Volumes
+# ==========================================================================
+volumes:
+  postgres_data:
+    name: rms_postgres_data
+  redis_data:
+    name: rms_redis_data
+  pgadmin_data:
+    name: rms_pgadmin_data
+  minio_data:
+    name: rms_minio_data

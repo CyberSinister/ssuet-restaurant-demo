@@ -16,7 +16,7 @@ import {
 // POST /api/orders - Create a new order
 export const POST = withBodyValidation(
   orderCreateSchema,
-  async (request: NextRequest, validatedBody: OrderCreateInput) => {
+  async (_request: NextRequest, validatedBody: OrderCreateInput) => {
     try {
       const {
         items,
@@ -52,7 +52,7 @@ export const POST = withBodyValidation(
         if (!menuItem) {
           return createErrorResponse(`Menu item ${item.menuItemId} not found`, 400)
         }
-        subtotal += menuItem.price * item.quantity
+        subtotal += Number(menuItem.price) * item.quantity
       }
 
       // Get restaurant settings for tax rate and delivery fee
@@ -61,14 +61,14 @@ export const POST = withBodyValidation(
         return createErrorResponse('Restaurant settings not found', 500)
       }
 
-      const tax = subtotal * settings.taxRate
-      const deliveryFee = orderType === 'delivery' ? settings.deliveryFee : 0
+      const tax = subtotal * Number(settings.taxRate)
+      const deliveryFee = orderType === 'DELIVERY' ? Number(settings.deliveryFee) : 0
       const total = subtotal + tax + deliveryFee
 
       // Validate minimum order for delivery
-      if (orderType === 'delivery' && subtotal < settings.minimumOrder) {
+      if (orderType === 'DELIVERY' && subtotal < Number(settings.minimumOrder)) {
         return createErrorResponse(
-          `Minimum order amount is $${settings.minimumOrder.toFixed(2)}`,
+          `Minimum order amount is $${Number(settings.minimumOrder).toFixed(2)}`,
           400
         )
       }
@@ -108,30 +108,45 @@ export const POST = withBodyValidation(
         })
       }
 
-      // Determine the pickup location (if implicit from notes or address hack, otherwise default)
-      // Since we don't have explicit Branch ID yet, we'll assume the address field if provided for pickup is store loc
-      // or just leave it generic. The UI sends address as undefined for pickup usually unless hacked.
-      // But we can extract it if we passed it in payload differently.
-      // For now, if orderType is pickup, address might be undefined.
-      
+      // Get default location for online orders
+      const defaultLocation = await prisma.location.findFirst({
+        where: { isActive: true },
+        orderBy: { createdAt: 'asc' },
+      })
+
+      if (!defaultLocation) {
+        return createErrorResponse('No active location found', 500)
+      }
+
+      // Generate order number
+      const orderCount = await prisma.order.count()
+      const orderNumber = `ORD-${Date.now()}-${orderCount + 1}`
+
       // Create order with order items
       const order = await prisma.order.create({
         data: {
+          orderNumber,
           customerId: customer.id,
+          locationId: defaultLocation.id,
           orderType,
-          address,
+          orderSource: 'WEBSITE',
+          deliveryAddress: address,
           subtotal,
-          tax,
+          taxAmount: tax,
           total,
           notes,
-          status: 'pending',
+          status: 'PENDING',
           orderItems: {
             create: items.map((item) => {
               const menuItem = menuItemMap.get(item.menuItemId)!
+              const unitPrice = Number(menuItem.price)
+              const totalPrice = unitPrice * item.quantity
               return {
                 menuItemId: item.menuItemId,
+                name: menuItem.name,
                 quantity: item.quantity,
-                price: menuItem.price,
+                unitPrice: menuItem.price,
+                totalPrice: totalPrice,
                 specialInstructions: item.specialInstructions,
               }
             }),
@@ -170,7 +185,7 @@ export const POST = withBodyValidation(
 // GET /api/orders - Get orders (with optional filtering)
 export const GET = withQueryValidation(
   orderQuerySchema,
-  async (request: NextRequest, validatedQuery: OrderQueryInput) => {
+  async (_request: NextRequest, validatedQuery: OrderQueryInput) => {
     try {
       const { status, customerId, email, page, limit } = validatedQuery
 

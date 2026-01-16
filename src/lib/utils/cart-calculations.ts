@@ -17,7 +17,7 @@ export function calculateOrderTotal(
     0
   )
 
-  const deliveryFee = orderType === 'delivery' ? settings.deliveryFee : 0
+  const deliveryFee = orderType === 'DELIVERY' ? settings.deliveryFee : 0
   const tax = (subtotal + deliveryFee) * settings.taxRate
   const total = subtotal + deliveryFee + tax
 

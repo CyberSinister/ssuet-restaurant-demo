@@ -102,11 +102,11 @@ export const cartItemSchema = z.object({
   specialInstructions: z.string().max(500, 'Special instructions must not exceed 500 characters').optional(),
 }).strict()
 
-export const orderTypeEnum = z.enum(['delivery', 'pickup'], {
-  errorMap: () => ({ message: 'Order type must be either "delivery" or "pickup"' }),
+export const orderTypeEnum = z.enum(['DINE_IN', 'TAKEAWAY', 'DELIVERY', 'DRIVE_THRU'], {
+  errorMap: () => ({ message: 'Invalid order type' }),
 })
 
-export const orderStatusEnum = z.enum(['pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'], {
+export const orderStatusEnum = z.enum(['PENDING', 'CONFIRMED', 'PREPARING', 'READY', 'SERVED', 'COMPLETED', 'CANCELLED'], {
   errorMap: () => ({ message: 'Invalid order status' }),
 })
 
@@ -126,7 +126,7 @@ export const orderCreateSchema = z.object({
   .refine(
     (data) => {
       // If order type is delivery, address is required
-      if (data.orderType === 'delivery' && !data.address) {
+      if (data.orderType === 'DELIVERY' && !data.address) {
         return false
       }
       return true
@@ -158,8 +158,6 @@ const hoursSchema = z.object({
   close: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (HH:MM)'),
   closed: z.boolean(),
 })
-
-const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
 
 export const restaurantSettingsSchema = z.object({
   name: z.string().min(1, 'Restaurant name is required').max(100, 'Restaurant name must not exceed 100 characters'),

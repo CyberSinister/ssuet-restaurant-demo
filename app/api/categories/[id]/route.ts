@@ -28,34 +28,23 @@ export const GET = withErrorHandling(
         where: { id },
         include: includeItems
           ? {
-              menuItems: true,
-              _count: {
-                select: { menuItems: true },
-              },
-            }
-          : {
-              _count: {
-                select: { menuItems: true },
-              },
+            menuItems: true,
+            _count: {
+              select: { menuItems: true },
             },
+          }
+          : {
+            _count: {
+              select: { menuItems: true },
+            },
+          },
       })
 
       if (!category) {
         return createErrorResponse('Category not found', 404)
       }
 
-      // Parse dietary tags if menu items are included
-      const formattedCategory = includeItems && category && 'menuItems' in category
-        ? {
-            ...category,
-            menuItems: (category.menuItems as any[]).map((item: any) => ({
-              ...item,
-              dietaryTags: JSON.parse(item.dietaryTags),
-            })),
-          }
-        : category
-
-      return NextResponse.json(formattedCategory)
+      return NextResponse.json(category)
     } catch (error) {
       console.error('Error fetching category:', error)
       return createErrorResponse('Failed to fetch category', 500)
@@ -144,7 +133,7 @@ export const PUT = withAuth(
 
 // DELETE /api/categories/[id] - Delete a category (admin only)
 export const DELETE = withAuth(
-  async (request: NextRequest, context: any) => {
+  async (_request: NextRequest, context: any) => {
     try {
       const { params } = context
       const id = params.id

@@ -12,7 +12,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   const pendingOrdersCount = orders?.filter(
-    (o) => o.status !== 'completed' && o.status !== 'cancelled'
+    (o) => o.status !== 'COMPLETED' && o.status !== 'CANCELLED'
   ).length || 0
 
   // Initialize from localStorage

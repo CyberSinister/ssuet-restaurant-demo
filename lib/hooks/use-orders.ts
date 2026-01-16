@@ -21,7 +21,7 @@ interface ApiOrder {
   id: string
   customerId: string
   customer: ApiCustomer
-  orderType: 'delivery' | 'pickup'
+  orderType: 'DINE_IN' | 'TAKEAWAY' | 'DELIVERY' | 'DRIVE_THRU'
   address: string | null
   notes: string | null
   status: OrderStatus
@@ -95,7 +95,7 @@ interface CreateOrderInput {
   customerName: string
   customerEmail: string
   customerPhone: string
-  orderType: 'delivery' | 'pickup'
+  orderType: 'DINE_IN' | 'TAKEAWAY' | 'DELIVERY' | 'DRIVE_THRU'
   address?: string
   notes?: string
 }

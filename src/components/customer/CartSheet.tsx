@@ -25,7 +25,7 @@ export default function CartSheet({
   cart,
   setCart,
   settings,
-  orders,
+  orders: _orders,
   setOrders,
   location,
   onClose,
@@ -45,12 +45,12 @@ export default function CartSheet({
         if (customer.address) setAddress(customer.address)
     }
   }, [customer])
-  const [orderType, setOrderType] = useState<OrderType>(location ? 'delivery' : 'pickup')
+  const [orderType, setOrderType] = useState<OrderType>(location ? 'DELIVERY' : 'TAKEAWAY')
   const [address, setAddress] = useState(customer?.address || '')
   const [notes, setNotes] = useState('')
 
   const subtotal = cart.reduce((sum, item) => sum + item.menuItem.price * item.quantity, 0)
-  const deliveryFee = orderType === 'delivery' ? settings.deliveryFee : 0
+  const deliveryFee = orderType === 'DELIVERY' ? settings.deliveryFee : 0
   const tax = (subtotal + deliveryFee) * settings.taxRate
   const total = subtotal + deliveryFee + tax
 
@@ -76,7 +76,7 @@ export default function CartSheet({
       return
     }
 
-    if (orderType === 'delivery' && !address) {
+    if (orderType === 'DELIVERY' && !address) {
       toast.error('Please provide a delivery address')
       return
     }
@@ -87,7 +87,7 @@ export default function CartSheet({
     }
 
     const fullAddress = location
-      ? (orderType === 'delivery' 
+      ? (orderType === 'DELIVERY' 
           ? `${address}, ${location.area}, ${location.city}`
           : `${location.area}, ${location.city}`) // For pickup, just send the branch location
       : address
@@ -218,7 +218,7 @@ export default function CartSheet({
                         htmlFor="pickup"
                         className={cn(
                             "flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all cursor-pointer",
-                            orderType === 'pickup' ? "border-primary bg-primary/10" : "border-border bg-muted/40 hover:border-primary/20"
+                            orderType === 'TAKEAWAY' ? "border-primary bg-primary/10" : "border-border bg-muted/40 hover:border-primary/20"
                         )}
                     >
                         <RadioGroupItem value="pickup" id="pickup" className="sr-only" />
@@ -228,7 +228,7 @@ export default function CartSheet({
                         htmlFor="delivery"
                         className={cn(
                             "flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all cursor-pointer",
-                            orderType === 'delivery' ? "border-primary bg-primary/10" : "border-border bg-muted/40 hover:border-primary/20"
+                            orderType === 'DELIVERY' ? "border-primary bg-primary/10" : "border-border bg-muted/40 hover:border-primary/20"
                         )}
                     >
                         <RadioGroupItem value="delivery" id="delivery" className="sr-only" />
@@ -236,7 +236,7 @@ export default function CartSheet({
                     </Label>
                 </RadioGroup>
 
-                {orderType === 'delivery' && (
+                {orderType === 'DELIVERY' && (
                     <div className="space-y-1.5 animate-in fade-in slide-in-from-top-2">
                         <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Complete Address (House / Flat / Block)</Label>
                         <Input
@@ -273,7 +273,7 @@ export default function CartSheet({
                     <span className="uppercase text-xs tracking-widest">Subtotal ({cart.length} items)</span>
                     <span className="font-mono tracking-tighter">Rs. {subtotal.toLocaleString()}</span>
                 </div>
-                {orderType === 'delivery' && (
+                {orderType === 'DELIVERY' && (
                     <div className="flex justify-between text-muted-foreground font-medium">
                         <span className="uppercase text-xs tracking-widest">Delivery Fee</span>
                         <span className="font-mono tracking-tighter">Rs. {deliveryFee.toLocaleString()}</span>

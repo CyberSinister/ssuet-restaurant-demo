@@ -12,12 +12,12 @@ import { useLocations } from '@/lib/hooks/use-locations'
 interface LocationModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onLocationConfirm: (details: { type: 'delivery' | 'pickup', country: string, city: string, area: string }) => void
+  onLocationConfirm: (details: { type: 'DELIVERY' | 'TAKEAWAY', country: string, city: string, area: string }) => void
 }
 
 export function LocationModal({ open, onOpenChange, onLocationConfirm }: LocationModalProps) {
   const { data: locations = [] } = useLocations()
-  const [orderType, setOrderType] = useState<'delivery' | 'pickup'>('delivery')
+  const [orderType, setOrderType] = useState<'DELIVERY' | 'TAKEAWAY'>('DELIVERY')
   const [selectedCountry, setSelectedCountry] = useState<string>('')
   const [selectedCity, setSelectedCity] = useState<string>('')
   const [selectedArea, setSelectedArea] = useState<string>('')
@@ -67,19 +67,19 @@ export function LocationModal({ open, onOpenChange, onLocationConfirm }: Locatio
             {/* Order Type Toggle */}
             <div className="grid grid-cols-2 gap-2 bg-[#1a1a1a] p-1 rounded-lg">
               <button 
-                onClick={() => setOrderType('delivery')}
+                onClick={() => setOrderType('DELIVERY')}
                 className={cn(
                   "py-3 text-sm font-bold uppercase rounded-md transition-all",
-                  orderType === 'delivery' ? "bg-primary text-black shadow-lg" : "text-gray-400 hover:text-white"
+                  orderType === 'DELIVERY' ? "bg-primary text-black shadow-lg" : "text-gray-400 hover:text-white"
                 )}
               >
                 Delivery
               </button>
               <button 
-                onClick={() => setOrderType('pickup')}
+                onClick={() => setOrderType('TAKEAWAY')}
                 className={cn(
                   "py-3 text-sm font-bold uppercase rounded-md transition-all",
-                  orderType === 'pickup' ? "bg-primary text-black shadow-lg" : "text-gray-400 hover:text-white"
+                  orderType === 'TAKEAWAY' ? "bg-primary text-black shadow-lg" : "text-gray-400 hover:text-white"
                 )}
               >
                 Pickup

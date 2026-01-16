@@ -225,6 +225,7 @@ export default function LocationsManagement() {
                             setIsNewCountry(true)
                             setFormData({ ...formData, country: '', countryImages: [] })
                           } else {
+                            setFormData({ ...formData, country: val, countryImages: getCountryImages(val) })
                           }
                         }}>
                           <SelectTrigger className="bg-muted border-input text-foreground h-14 rounded-2xl">

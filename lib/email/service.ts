@@ -92,7 +92,7 @@ export async function sendOrderConfirmationEmail(
     `
     : ''
 
-  const locationSection = orderDetails.orderType === 'delivery'
+  const locationSection = orderDetails.orderType === 'DELIVERY'
     ? `<p><strong>Delivering To:</strong><br>${orderDetails.address}</p>`
     : `<p><strong>Pickup Location:</strong><br>${orderDetails.address || orderDetails.pickupLocation || 'Main Branch'}</p>`
 
@@ -140,6 +140,63 @@ export async function sendOrderConfirmationEmail(
     console.log(`Order confirmation email sent to ${to}`)
   } catch (error) {
     console.error('Failed to send email:', error)
+  }
+}
+
+// Generic email sender for template-based emails
+export async function sendEmail(params: {
+  to: string
+  subject: string
+  template?: string
+  data?: Record<string, any>
+  html?: string
+}) {
+  const transporter = await getEmailTransporter()
+
+  if (!transporter) {
+    console.log('Email not configured, skipping email send')
+    return { success: false, error: 'Email not configured' }
+  }
+
+  const smtpConfig = await prisma.sMTPConfig.findFirst({
+    where: { enabled: true },
+  })
+
+  const fromEmail = smtpConfig?.fromEmail || process.env.SMTP_FROM_EMAIL || 'noreply@bistrobay.com'
+  const fromName = smtpConfig?.fromName || process.env.SMTP_FROM_NAME || 'Bistro Bay'
+
+  // Generate HTML from template and data, or use provided HTML
+  let html = params.html || ''
+
+  if (!html && params.template && params.data) {
+    // Simple template rendering - can be enhanced with a proper template engine
+    html = `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1>${params.subject}</h1>
+        <div>
+          ${Object.entries(params.data)
+            .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
+            .join('')}
+        </div>
+        <p style="color: #666; font-size: 0.9em; margin-top: 30px;">
+          This is an automated message from ${fromName}.
+        </p>
+      </div>
+    `
+  }
+
+  try {
+    await transporter.sendMail({
+      from: `"${fromName}" <${fromEmail}>`,
+      to: params.to,
+      subject: params.subject,
+      html,
+    })
+    console.log(`Email sent to ${params.to}: ${params.subject}`)
+    return { success: true }
+  } catch (error) {
+    console.error('Failed to send email:', error)
+    return { success: false, error: String(error) }
   }
 }
 

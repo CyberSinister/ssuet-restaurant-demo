@@ -28,28 +28,16 @@ export const GET = withErrorHandling(async (_request: NextRequest, { params }: {
 export const PATCH = withAuth(async (request: NextRequest, { params }: { params: { id: string } }) => {
   try {
     const validatedBody = await validateBody(request, locationUpdateSchema)
-    
-    const data = {
-      ...validatedBody,
-      countryImages: validatedBody.countryImages ? JSON.stringify(validatedBody.countryImages) : (validatedBody.countryImages === null ? null : undefined),
-      cityImages: validatedBody.cityImages ? JSON.stringify(validatedBody.cityImages) : (validatedBody.cityImages === null ? null : undefined),
-    }
 
     const location = await prisma.location.update({
       where: { id: params.id },
-      data,
+      data: validatedBody as any,
     })
 
-    const parsedLocation = {
-        ...location,
-        countryImages: location.countryImages ? JSON.parse(location.countryImages) : [],
-        cityImages: location.cityImages ? JSON.parse(location.cityImages) : []
-    }
-
-    return NextResponse.json(parsedLocation)
+    return NextResponse.json(location)
   } catch (error: any) {
     if (error instanceof NextResponse) return error
-    
+
     console.error('Error updating location:', error)
     if (error.code === 'P2025') {
       return createErrorResponse('Location not found', 404)

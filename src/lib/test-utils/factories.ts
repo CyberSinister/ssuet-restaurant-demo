@@ -38,7 +38,7 @@ export function createMockOrder(overrides?: Partial<Order>): Order {
   const items = overrides?.items || [createMockCartItem()]
   const subtotal = items.reduce((sum, item) => sum + item.menuItem.price * item.quantity, 0)
   const tax = subtotal * 0.08
-  const deliveryFee = overrides?.orderType === 'delivery' ? 5 : 0
+  const deliveryFee = overrides?.orderType === 'DELIVERY' ? 5 : 0
   const total = subtotal + tax + deliveryFee
 
   return {
@@ -47,8 +47,8 @@ export function createMockOrder(overrides?: Partial<Order>): Order {
     customerName: 'John Doe',
     customerEmail: 'john@example.com',
     customerPhone: '555-0100',
-    orderType: 'pickup' as OrderType,
-    status: 'pending' as OrderStatus,
+    orderType: 'TAKEAWAY' as OrderType,
+    status: 'PENDING' as OrderStatus,
     subtotal,
     tax,
     total,

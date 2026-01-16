@@ -1,5 +1,5 @@
 import { prisma } from './prisma'
-import type { Prisma } from '@prisma/client'
+import type { Prisma, OrderStatus } from '@prisma/client'
 
 /**
  * Optimized database queries with proper field selection and indexing
@@ -110,7 +110,7 @@ export async function getAllCategories() {
 export interface OrderQueryOptions {
   page?: number
   limit?: number
-  status?: string
+  status?: OrderStatus
   customerId?: string
 }
 
@@ -130,9 +130,9 @@ export async function getOrdersPaginated(options: OrderQueryOptions = {}) {
         customerId: true,
         orderType: true,
         status: true,
-        address: true,
+        deliveryAddress: true,
         subtotal: true,
-        tax: true,
+        taxAmount: true,
         total: true,
         notes: true,
         createdAt: true,
@@ -150,7 +150,7 @@ export async function getOrdersPaginated(options: OrderQueryOptions = {}) {
             id: true,
             menuItemId: true,
             quantity: true,
-            price: true,
+            unitPrice: true,
             specialInstructions: true,
             menuItem: {
               select: {
@@ -251,9 +251,16 @@ export async function getOrCreateCustomer(data: {
     })
   }
 
-  // Create new customer
+  // Create new customer with a generated password
+  const { hash } = await import('bcryptjs')
+  const generatedPassword = Math.random().toString(36).slice(-8)
+  const hashedPassword = await hash(generatedPassword, 12)
+
   return prisma.customer.create({
-    data,
+    data: {
+      ...data,
+      password: hashedPassword,
+    },
   })
 }
 

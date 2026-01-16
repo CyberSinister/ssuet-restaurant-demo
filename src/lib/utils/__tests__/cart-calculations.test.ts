@@ -28,7 +28,7 @@ describe('calculateOrderTotal', () => {
       }),
     ]
 
-    const result = calculateOrderTotal(cart, 'pickup', settings)
+    const result = calculateOrderTotal(cart, 'TAKEAWAY', settings)
 
     expect(result.subtotal).toBe(35)
     expect(result.deliveryFee).toBe(0)
@@ -44,7 +44,7 @@ describe('calculateOrderTotal', () => {
       }),
     ]
 
-    const result = calculateOrderTotal(cart, 'delivery', settings)
+    const result = calculateOrderTotal(cart, 'DELIVERY', settings)
 
     expect(result.subtotal).toBe(20)
     expect(result.deliveryFee).toBe(5)
@@ -53,7 +53,7 @@ describe('calculateOrderTotal', () => {
   })
 
   it('handles empty cart', () => {
-    const result = calculateOrderTotal([], 'pickup', settings)
+    const result = calculateOrderTotal([], 'TAKEAWAY', settings)
 
     expect(result.subtotal).toBe(0)
     expect(result.deliveryFee).toBe(0)
@@ -69,7 +69,7 @@ describe('calculateOrderTotal', () => {
       }),
     ]
 
-    const result = calculateOrderTotal(cart, 'pickup', settings)
+    const result = calculateOrderTotal(cart, 'TAKEAWAY', settings)
 
     expect(result.subtotal).toBeCloseTo(29.97, 2)
     expect(result.tax).toBeCloseTo(2.3976, 2)
@@ -85,7 +85,7 @@ describe('calculateOrderTotal', () => {
       }),
     ]
 
-    const result = calculateOrderTotal(cart, 'pickup', highTaxSettings)
+    const result = calculateOrderTotal(cart, 'TAKEAWAY', highTaxSettings)
 
     expect(result.tax).toBe(15)
     expect(result.total).toBe(115)
@@ -99,7 +99,7 @@ describe('calculateOrderTotal', () => {
       }),
     ]
 
-    const result = calculateOrderTotal(cart, 'delivery', settings)
+    const result = calculateOrderTotal(cart, 'DELIVERY', settings)
 
     // Tax should be calculated on (50 + 5) = 55
     expect(result.tax).toBe(4.4) // 55 * 0.08

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/settings - Get restaurant settings
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const { prisma } = await import('@/lib/db/prisma')
     let settings = await prisma.restaurantSettings.findFirst()
@@ -77,7 +77,7 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json({
       ...updatedSettings,
-      hours: JSON.parse(updatedSettings.hours),
+      hours: updatedSettings.hours ?? {},
     })
   } catch (error) {
     console.error('Error updating settings:', error)

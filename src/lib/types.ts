@@ -15,6 +15,7 @@ export interface MenuItem {
   image: string
   dietaryTags: string[]
   available: boolean
+  popular?: boolean
 }
 
 export interface CartItem {
@@ -23,9 +24,9 @@ export interface CartItem {
   specialInstructions?: string
 }
 
-export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed' | 'cancelled'
+export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'SERVED' | 'COMPLETED' | 'CANCELLED'
 
-export type OrderType = 'delivery' | 'pickup'
+export type OrderType = 'DINE_IN' | 'TAKEAWAY' | 'DELIVERY' | 'DRIVE_THRU'
 
 export interface Order {
   id: string

@@ -15,14 +15,13 @@ interface OrdersViewProps {
 }
 
 const statusConfig: Record<OrderStatus, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
-  pending: { label: 'Pending', variant: 'secondary' },
-  confirmed: { label: 'Confirmed', variant: 'default' },
-  preparing: { label: 'Preparing', variant: 'default' },
-  ready: { label: 'Ready', variant: 'default' },
-  out_for_delivery: { label: 'Out for Delivery', variant: 'default' },
-  delivered: { label: 'Delivered', variant: 'outline' },
-  completed: { label: 'Completed', variant: 'outline' },
-  cancelled: { label: 'Cancelled', variant: 'destructive' },
+  PENDING: { label: 'Pending', variant: 'secondary' },
+  CONFIRMED: { label: 'Confirmed', variant: 'default' },
+  PREPARING: { label: 'Preparing', variant: 'default' },
+  READY: { label: 'Ready', variant: 'default' },
+  SERVED: { label: 'Served', variant: 'default' },
+  COMPLETED: { label: 'Completed', variant: 'outline' },
+  CANCELLED: { label: 'Cancelled', variant: 'destructive' },
 }
 
 export default function OrdersView({ orders, customer }: OrdersViewProps) {

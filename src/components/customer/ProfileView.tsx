@@ -274,9 +274,9 @@ export function ProfileView({ customer, setCustomer, sessionOrders = [] }: Profi
                                         </div>
                                         <div className={cn(
                                             "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest",
-                                            order.status === 'completed' || order.status === 'delivered' ? "bg-green-500/10 text-green-500" : 
-                                            order.status === 'pending' ? "bg-amber-500/10 text-amber-500" :
-                                            order.status === 'cancelled' ? "bg-red-500/10 text-red-500" :
+                                            order.status === 'COMPLETED' || order.status === 'SERVED' ? "bg-green-500/10 text-green-500" :
+                                            order.status === 'PENDING' ? "bg-amber-500/10 text-amber-500" :
+                                            order.status === 'CANCELLED' ? "bg-red-500/10 text-red-500" :
                                             "bg-primary/10 text-primary"
                                         )}>
                                             {order.status.replace(/_/g, ' ')}

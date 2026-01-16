@@ -34,11 +34,11 @@ export default function CustomerPortal({
   setOrders,
   settings,
   onAdminClick: _onAdminClick,
-  heroConfig,
-  promotions,
-  featuredItems,
+  heroConfig: _heroConfig,
+  promotions: _promotions,
+  featuredItems: _featuredItems,
   banners,
-  landingPageConfig,
+  landingPageConfig: _landingPageConfig,
 }: CustomerPortalProps) {
   const [view, setView] = useState<'home' | 'orders' | 'profile' | 'locations'>('home')
   const [cartRaw, setCart] = useLocalStorage<CartItem[]>('shopping-cart', [])

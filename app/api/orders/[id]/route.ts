@@ -8,7 +8,7 @@ import { uuidSchema } from '@/lib/validations/schemas'
 
 // GET /api/orders/[id] - Get a single order
 export const GET = withErrorHandling(
-  async (request: NextRequest, context: any) => {
+  async (_request: NextRequest, context: any) => {
     try {
       const { params } = context
       const id = params.id
@@ -35,19 +35,7 @@ export const GET = withErrorHandling(
         return createErrorResponse('Order not found', 404)
       }
 
-      // Parse dietary tags in menu items
-      const formattedOrder = {
-        ...order,
-        orderItems: order.orderItems.map((item) => ({
-          ...item,
-          menuItem: {
-            ...item.menuItem,
-            dietaryTags: JSON.parse(item.menuItem.dietaryTags),
-          },
-        })),
-      }
-
-      return NextResponse.json(formattedOrder)
+      return NextResponse.json(order)
     } catch (error) {
       console.error('Error fetching order:', error)
       return createErrorResponse('Failed to fetch order', 500)

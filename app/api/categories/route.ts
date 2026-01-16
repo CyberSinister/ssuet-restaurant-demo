@@ -18,35 +18,23 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
       where: includeInactive ? {} : { active: true },
       include: includeItems
         ? {
-            menuItems: {
-              where: includeInactive ? {} : { available: true },
-            },
-            _count: {
-              select: { menuItems: true },
-            },
-          }
-        : {
-            _count: {
-              select: { menuItems: true },
-            },
+          menuItems: {
+            where: includeInactive ? {} : { available: true },
           },
+          _count: {
+            select: { menuItems: true },
+          },
+        }
+        : {
+          _count: {
+            select: { menuItems: true },
+          },
+        },
       orderBy: { displayOrder: 'asc' },
     })
 
-    // Parse dietary tags if menu items are included
-    const formattedCategories = includeItems
-      ? categories.map((category) => ({
-          ...category,
-          menuItems: 'menuItems' in category
-            ? category.menuItems.map((item: any) => ({
-                ...item,
-                dietaryTags: JSON.parse(item.dietaryTags),
-              }))
-            : undefined,
-        }))
-      : categories
 
-    return NextResponse.json(formattedCategories)
+    return NextResponse.json(categories)
   } catch (error) {
     console.error('Error fetching categories:', error)
     return createErrorResponse('Failed to fetch categories', 500)
@@ -56,7 +44,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
 // POST /api/categories - Create a new category (admin only)
 export const POST = withAuthAndBodyValidation(
   categorySchema,
-  async (request: NextRequest, validatedBody: CategoryInput) => {
+  async (_request: NextRequest, validatedBody: CategoryInput) => {
     const { prisma } = await import('@/lib/db/prisma')
     try {
       const { name, description, displayOrder, active } = validatedBody

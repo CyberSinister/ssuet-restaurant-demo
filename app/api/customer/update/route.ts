@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withAuthAndBodyValidation, withErrorHandling } from '@/lib/validations/middleware'
+import { withAuthAndBodyValidation } from '@/lib/validations/middleware'
 import { z } from 'zod'
 
 // Validation schema for updating customer profile
@@ -18,12 +18,12 @@ type CustomerUpdateInput = z.infer<typeof customerUpdateSchema>
 
 export const PUT = withAuthAndBodyValidation(
   customerUpdateSchema,
-  async (request: NextRequest, validatedBody: CustomerUpdateInput) => {
+  async (_request: NextRequest, validatedBody: CustomerUpdateInput) => {
     const { prisma } = await import('@/lib/db/prisma')
-    
+
     // In a real app, you'd verify the authenticated user matches the customerId or is an admin.
     // For this context, we'll assume the client sends the ID of the logged-in user.
-    
+
     const { customerId, ...dataToUpdate } = validatedBody
 
     try {
@@ -31,18 +31,18 @@ export const PUT = withAuthAndBodyValidation(
         where: { id: customerId },
         data: dataToUpdate,
       })
-      
+
       // Return the updated customer (excluding password)
       const { password: _, ...customerSafe } = updatedCustomer
-      
-      return NextResponse.json({ 
+
+      return NextResponse.json({
         message: 'Profile updated successfully',
         customer: customerSafe
       })
     } catch (error) {
-       // Handle case where email is already taken if email is being updated
-       // Prisma throws specific error codes for unique constraints
-       return NextResponse.json({ error: 'Failed to update profile. Email might feature already.' }, { status: 500 })
+      // Handle case where email is already taken if email is being updated
+      // Prisma throws specific error codes for unique constraints
+      return NextResponse.json({ error: 'Failed to update profile. Email might feature already.' }, { status: 500 })
     }
   }
 )

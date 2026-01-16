@@ -13,7 +13,7 @@ import {
 // POST /api/settings/smtp/test - Send test email (admin only)
 export const POST = withAuthAndBodyValidation(
   smtpTestEmailSchema,
-  async (request: NextRequest, validatedBody: SMTPTestEmailInput) => {
+  async (_request: NextRequest, validatedBody: SMTPTestEmailInput) => {
     try {
       const { to } = validatedBody
 

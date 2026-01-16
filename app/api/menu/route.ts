@@ -31,10 +31,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
 
       const formattedCategories = categories.map((category) => ({
         ...category,
-        menuItems: category.menuItems.map((item) => ({
-          ...item,
-          dietaryTags: JSON.parse(item.dietaryTags),
-        })),
+        menuItems: category.menuItems
       }))
 
       return NextResponse.json(formattedCategories)
@@ -56,13 +53,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
       orderBy: { createdAt: 'desc' },
     })
 
-    // Parse JSON strings in dietary tags
-    const formattedItems = menuItems.map((item) => ({
-      ...item,
-      dietaryTags: JSON.parse(item.dietaryTags),
-    }))
-
-    return NextResponse.json(formattedItems)
+    return NextResponse.json(menuItems)
   } catch (error) {
     console.error('Error fetching menu:', error)
     return createErrorResponse('Failed to fetch menu', 500)
@@ -72,7 +63,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
 // POST /api/menu - Create a new menu item (admin only)
 export const POST = withAuthAndBodyValidation(
   menuItemSchema,
-  async (request: NextRequest, validatedBody: MenuItemInput) => {
+  async (_request: NextRequest, validatedBody: MenuItemInput) => {
     const { prisma } = await import('@/lib/db/prisma')
     try {
       const { name, description, price, categoryId, image, dietaryTags, available } =
@@ -95,7 +86,7 @@ export const POST = withAuthAndBodyValidation(
           price,
           categoryId,
           image,
-          dietaryTags: JSON.stringify(dietaryTags),
+          dietaryTags: dietaryTags || [],
           available,
         },
         include: {
@@ -103,14 +94,8 @@ export const POST = withAuthAndBodyValidation(
         },
       })
 
-      // Return with parsed dietary tags
-      return NextResponse.json(
-        {
-          ...menuItem,
-          dietaryTags: JSON.parse(menuItem.dietaryTags),
-        },
-        { status: 201 }
-      )
+      // Return created item
+      return NextResponse.json(menuItem, { status: 201 })
     } catch (error) {
       console.error('Error creating menu item:', error)
       return createErrorResponse('Failed to create menu item', 500)

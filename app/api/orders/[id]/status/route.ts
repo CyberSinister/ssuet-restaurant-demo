@@ -41,12 +41,13 @@ export const PUT = withAuth(
 
       // Validate status transitions
       const validTransitions: Record<string, string[]> = {
-        pending: ['confirmed', 'cancelled'],
-        confirmed: ['preparing', 'cancelled'],
-        preparing: ['ready', 'cancelled'],
-        ready: ['completed', 'cancelled'],
-        completed: [], // Cannot transition from completed
-        cancelled: [], // Cannot transition from cancelled
+        PENDING: ['CONFIRMED', 'CANCELLED'],
+        CONFIRMED: ['PREPARING', 'CANCELLED'],
+        PREPARING: ['READY', 'CANCELLED'],
+        READY: ['SERVED', 'COMPLETED', 'CANCELLED'],
+        SERVED: ['COMPLETED', 'CANCELLED'],
+        COMPLETED: [], // Cannot transition from completed
+        CANCELLED: [], // Cannot transition from cancelled
       }
 
       const allowedStatuses = validTransitions[existingOrder.status]
@@ -71,22 +72,10 @@ export const PUT = withAuth(
         },
       })
 
-      // Parse dietary tags in menu items
-      const formattedOrder = {
-        ...updatedOrder,
-        orderItems: updatedOrder.orderItems.map((item) => ({
-          ...item,
-          menuItem: {
-            ...item.menuItem,
-            dietaryTags: JSON.parse(item.menuItem.dietaryTags),
-          },
-        })),
-      }
-
       // TODO: Send status update email notification to customer
       // This can be implemented based on the email service
 
-      return NextResponse.json(formattedOrder)
+      return NextResponse.json(updatedOrder)
     } catch (error) {
       // Handle validation errors from middleware
       if (error instanceof NextResponse) {

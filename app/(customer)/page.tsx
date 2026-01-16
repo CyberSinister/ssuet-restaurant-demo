@@ -1,5 +1,6 @@
-import MenuView from '@/lib/components/customer/MenuView'
+import { redirect } from 'next/navigation'
 
+// Customer home is handled by the main page at root
 export default function CustomerHomePage() {
-  return <MenuView />
+  redirect('/')
 }

@@ -10,7 +10,7 @@ import { menuItemUpdateSchema, uuidSchema } from '@/lib/validations/schemas'
 
 // GET /api/menu/[id] - Get a single menu item
 export const GET = withErrorHandling(
-  async (request: NextRequest, context: any) => {
+  async (_request: NextRequest, context: any) => {
     try {
       const { params } = context
       const id = params.id
@@ -32,10 +32,7 @@ export const GET = withErrorHandling(
         return createErrorResponse('Menu item not found', 404)
       }
 
-      return NextResponse.json({
-        ...menuItem,
-        dietaryTags: JSON.parse(menuItem.dietaryTags),
-      })
+      return NextResponse.json(menuItem)
     } catch (error) {
       console.error('Error fetching menu item:', error)
       return createErrorResponse('Failed to fetch menu item', 500)
@@ -89,7 +86,7 @@ export const PUT = withAuth(
           ...(validatedBody.categoryId && { categoryId: validatedBody.categoryId }),
           ...(validatedBody.image && { image: validatedBody.image }),
           ...(validatedBody.dietaryTags && {
-            dietaryTags: JSON.stringify(validatedBody.dietaryTags),
+            dietaryTags: validatedBody.dietaryTags,
           }),
           ...(validatedBody.available !== undefined && { available: validatedBody.available }),
         },
@@ -98,10 +95,7 @@ export const PUT = withAuth(
         },
       })
 
-      return NextResponse.json({
-        ...updatedItem,
-        dietaryTags: JSON.parse(updatedItem.dietaryTags),
-      })
+      return NextResponse.json(updatedItem)
     } catch (error) {
       // Handle validation errors from middleware
       if (error instanceof NextResponse) {
@@ -115,7 +109,7 @@ export const PUT = withAuth(
 
 // DELETE /api/menu/[id] - Delete a menu item (admin only)
 export const DELETE = withAuth(
-  async (request: NextRequest, context: any) => {
+  async (_request: NextRequest, context: any) => {
     try {
       const { params } = context
       const id = params.id
@@ -146,9 +140,9 @@ export const DELETE = withAuth(
         // Our GET APIs now filter these out so they "disappear" from the UI.
         await prisma.menuItem.update({
           where: { id },
-          data: { 
+          data: {
             available: false,
-            isDeleted: true 
+            isDeleted: true
           },
         })
 

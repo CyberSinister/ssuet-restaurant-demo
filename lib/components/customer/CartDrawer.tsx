@@ -1,37 +1,18 @@
 
 import { ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useCartStore } from '@/lib/stores/cart-store'
 import CartSheet from '@/components/customer/CartSheet'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { defaultRestaurantSettings } from '@/lib/sample-data'
 import { useState } from 'react'
+import { Order } from '@/lib/types'
 
 export default function CartDrawer() {
-  const { cart, addItem, updateQuantity, removeItem, clearCart } = useCartStore()
-  const [orders, setOrders] = useLocalStorage('orders', [])
+  const { cart } = useCartStore()
+  const [orders, setOrders] = useLocalStorage<Order[]>('orders', [])
   const [isOpen, setIsOpen] = useState(false)
-  
-  // Bridge the Zustand store with the props expected by CartSheet
-  const setCartWrapper = (cartOrFn: any) => {
-    // If it's a function update (unlikely from CartSheet but possible)
-    if (typeof cartOrFn === 'function') {
-      // We can't easily bridge functional updates back to store actions
-      // So we'll rely on the specific action calls instead
-      console.warn('Functional cart updates not fully supported in bridge')
-    }
-    // CartSheet mainly uses setCart to update items. 
-    // Ideally CartSheet should use the store directly, but for now we adapt it.
-    // However, CartSheet calls setCart(currentCart => ...) which is functional.
-    // This wrapper is tricky. A better approach is to wrap calls.
-    
-    // Instead of forcing CartSheet to work, let's make a version of CartSheet that uses the store?
-    // Or just pass a dummy SET function and hope it uses the specific actions?
-    // CartSheet uses: updateQuantity (setCart), removeItem (setCart), setCheckoutMode, etc.
-    // Actually detailed analysis of CartSheet:
-    // It calls `setCart((currentCart) => ...)`
-  }
 
   // Since CartSheet logic is tightly coupled with local state setCart, 
   // and we want to use the global store, we might need to modify CartSheet or 
@@ -76,27 +57,15 @@ export default function CartDrawer() {
       </SheetTrigger>
       <SheetContent side="bottom" className="h-[90vh] p-0 bg-[#1a1a1a] border-t border-white/10">
          <div className="h-full overflow-auto p-6">
-            <CartSheet 
+            <CartSheet
                 cart={cart}
-                setCart={(newCart) => {
-                    // This is a rough bridge. If CartSheet passes a function, we execute it with current cart
-                    // Then we calculate diffs or just replace?
-                    // store doesn't have "replace cart" (except clear). 
-                    // Let's rely on the Store persistence to handle the syncing if we reload.
-                    // But for immediate updates:
-                    // If CartSheet is used, it expects to control the cart state.
-                    // Let's assume for this fix, we will just use the store in the Layout.
-                    
-                    // Actually, if we simply ignore the setCart from CartSheet for a moment
-                    // And instead rewrite CartSheet to use store, that's best.
-                    // But CartSheet is complex. 
-                    
-                    // Hack fix:
-                    console.log("External cart update requested")
+                setCart={(_newCart) => {
+                    // Placeholder: CartSheet expects setCart but store is used directly
                 }}
-                settings={defaultRestaurantSettings} // Usage of default settings
+                settings={defaultRestaurantSettings}
                 orders={orders}
                 setOrders={setOrders}
+                location={null}
                 onClose={() => setIsOpen(false)}
             />
          </div>

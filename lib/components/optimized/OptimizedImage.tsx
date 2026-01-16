@@ -18,7 +18,7 @@ export function OptimizedImage({
   ...props
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [_error, setError] = useState(false)
   const [imgSrc, setImgSrc] = useState(src)
 
   const handleLoad = () => {

@@ -18,24 +18,25 @@ import { useOrders, useUpdateOrderStatus } from '@/lib/hooks/use-orders'
 import { OrderStatus } from '@/lib/types'
 
 const statusOptions: OrderStatus[] = [
-  'pending',
-  'confirmed',
-  'preparing',
-  'ready',
-  'completed',
-  'cancelled',
+  'PENDING',
+  'CONFIRMED',
+  'PREPARING',
+  'READY',
+  'COMPLETED',
+  'CANCELLED',
 ]
 
 const statusConfig: Record<
   OrderStatus,
   { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }
 > = {
-  pending: { label: 'Pending', variant: 'secondary' },
-  confirmed: { label: 'Confirmed', variant: 'default' },
-  preparing: { label: 'Preparing', variant: 'default' },
-  ready: { label: 'Ready', variant: 'default' },
-  completed: { label: 'Completed', variant: 'outline' },
-  cancelled: { label: 'Cancelled', variant: 'destructive' },
+  PENDING: { label: 'Pending', variant: 'secondary' },
+  CONFIRMED: { label: 'Confirmed', variant: 'default' },
+  PREPARING: { label: 'Preparing', variant: 'default' },
+  READY: { label: 'Ready', variant: 'default' },
+  SERVED: { label: 'Served', variant: 'default' },
+  COMPLETED: { label: 'Completed', variant: 'outline' },
+  CANCELLED: { label: 'Cancelled', variant: 'destructive' },
 }
 
 export default function OrdersManagement() {
@@ -67,10 +68,10 @@ export default function OrdersManagement() {
   }
 
   const activeOrders = orders.filter(
-    (o) => o.status !== 'completed' && o.status !== 'cancelled'
+    (o) => o.status !== 'COMPLETED' && o.status !== 'CANCELLED'
   )
   const completedOrders = orders.filter(
-    (o) => o.status === 'completed' || o.status === 'cancelled'
+    (o) => o.status === 'COMPLETED' || o.status === 'CANCELLED'
   )
 
   return (
@@ -163,33 +164,33 @@ export default function OrdersManagement() {
                       </span>
                     </div>
                     <div className="flex gap-2">
-                      {order.status === 'pending' && (
+                      {order.status === 'PENDING' && (
                         <Button
-                          onClick={() => handleStatusUpdate(order.id, 'confirmed')}
+                          onClick={() => handleStatusUpdate(order.id, 'CONFIRMED')}
                           disabled={updateStatusMutation.isPending}
                         >
                           Confirm Order
                         </Button>
                       )}
-                      {order.status === 'confirmed' && (
+                      {order.status === 'CONFIRMED' && (
                         <Button
-                          onClick={() => handleStatusUpdate(order.id, 'preparing')}
+                          onClick={() => handleStatusUpdate(order.id, 'PREPARING')}
                           disabled={updateStatusMutation.isPending}
                         >
                           Start Preparing
                         </Button>
                       )}
-                      {order.status === 'preparing' && (
+                      {order.status === 'PREPARING' && (
                         <Button
-                          onClick={() => handleStatusUpdate(order.id, 'ready')}
+                          onClick={() => handleStatusUpdate(order.id, 'READY')}
                           disabled={updateStatusMutation.isPending}
                         >
                           Mark Ready
                         </Button>
                       )}
-                      {order.status === 'ready' && (
+                      {order.status === 'READY' && (
                         <Button
-                          onClick={() => handleStatusUpdate(order.id, 'completed')}
+                          onClick={() => handleStatusUpdate(order.id, 'COMPLETED')}
                           disabled={updateStatusMutation.isPending}
                         >
                           Complete Order

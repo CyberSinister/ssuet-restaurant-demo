@@ -48,10 +48,10 @@ function AdminDashboardContent() {
   }
 
   const pendingOrders = orders?.filter(
-    (o) => o.status !== 'completed' && o.status !== 'cancelled'
+    (o) => o.status !== 'COMPLETED' && o.status !== 'CANCELLED'
   ) || []
 
-  const completedOrders = orders?.filter(o => o.status === 'completed') || []
+  const completedOrders = orders?.filter(o => o.status === 'COMPLETED') || []
   const totalRevenue = completedOrders.reduce((sum, order) => sum + (order.total || 0), 0)
 
   // Get page title and subtitle based on active tab
@@ -275,8 +275,8 @@ function DashboardOverview({
             recentActivity.map((order) => (
               <div key={order.id} className="flex items-center gap-4 p-3 rounded-xl bg-background border border-border hover:border-primary/20 transition-colors cursor-pointer" onClick={() => router.push('/admin?tab=orders')}>
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                    order.status === 'pending' ? 'bg-amber-500/10 text-amber-500' :
-                    order.status === 'completed' ? 'bg-green-500/10 text-green-500' :
+                    order.status === 'PENDING' ? 'bg-amber-500/10 text-amber-500' :
+                    order.status === 'COMPLETED' ? 'bg-green-500/10 text-green-500' :
                     'bg-primary/10 text-primary'
                 }`}>
                   <ShoppingCart className="h-5 w-5" weight="fill" />
@@ -293,8 +293,8 @@ function DashboardOverview({
                 <div className="text-right">
                     <span className="text-sm font-bold text-foreground block">Rs. {order.total.toLocaleString()}</span>
                     <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                        order.status === 'pending' ? 'bg-amber-500/10 text-amber-600' :
-                        order.status === 'completed' ? 'bg-green-500/10 text-green-600' :
+                        order.status === 'PENDING' ? 'bg-amber-500/10 text-amber-600' :
+                        order.status === 'COMPLETED' ? 'bg-green-500/10 text-green-600' :
                         'bg-blue-500/10 text-blue-600'
                     }`}>
                         {order.status}

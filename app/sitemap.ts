@@ -1,26 +1,7 @@
 import { MetadataRoute } from 'next'
-import { prisma } from '@/lib/db/prisma'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-
-  // Get all active menu items
-  const menuItems = await prisma.menuItem.findMany({
-    where: { available: true },
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-  })
-
-  // Get all active categories
-  const categories = await prisma.category.findMany({
-    where: { active: true },
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-  })
 
   // Static routes
   const routes: MetadataRoute.Sitemap = [

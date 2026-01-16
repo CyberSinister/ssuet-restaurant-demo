@@ -13,7 +13,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
     const includeInactive = searchParams.get('includeInactive') === 'true'
 
     const locations = await prisma.location.findMany({
-      where: includeInactive ? {} : { active: true },
+      where: includeInactive ? {} : { isActive: true },
       orderBy: [
         { country: 'asc' },
         { city: 'asc' },
@@ -21,13 +21,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
       ],
     })
 
-    const parsedLocations = locations.map((l: any) => ({
-        ...l,
-        countryImages: l.countryImages ? JSON.parse(l.countryImages) : [],
-        cityImages: l.cityImages ? JSON.parse(l.cityImages) : []
-    }))
-
-    return NextResponse.json(parsedLocations)
+    return NextResponse.json(locations)
   } catch (error) {
     console.error('Error fetching locations:', error)
     return createErrorResponse('Failed to fetch locations', 500)
@@ -38,13 +32,8 @@ export const POST = withAuthAndBodyValidation(
   locationSchema,
   async (_request: NextRequest, validatedBody: LocationInput) => {
     try {
-      const data = {
-        ...validatedBody,
-        countryImages: validatedBody.countryImages ? JSON.stringify(validatedBody.countryImages) : null,
-        cityImages: validatedBody.cityImages ? JSON.stringify(validatedBody.cityImages) : null,
-      }
       const location = await prisma.location.create({
-        data
+        data: validatedBody as any
       })
       return NextResponse.json(location, { status: 201 })
     } catch (error: any) {

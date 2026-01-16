@@ -1,5 +1,9 @@
-import { auth } from "@/lib/auth/config";
+import NextAuth from "next-auth";
+import { authConfig } from "@/lib/auth/auth.config";
 import { NextResponse } from "next/server";
+
+// Use the edge-compatible auth config (no bcryptjs)
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;

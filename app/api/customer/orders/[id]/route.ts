@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: { id: string } }
 ) {
   const { prisma } = await import('@/lib/db/prisma')

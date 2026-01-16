@@ -262,7 +262,7 @@ export default function MenuView({
   categories = [],
   cart,
   setCart,
-  settings,
+  settings: _settings,
   onRequireLocation,
   isLocationSet
 }: MenuViewProps) {

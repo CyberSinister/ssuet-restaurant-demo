@@ -1,5 +1,6 @@
-import OrdersView from '@/lib/components/customer/OrdersView'
+import { redirect } from 'next/navigation'
 
+// Orders view is handled by the main CustomerPortal component
 export default function OrdersPage() {
-  return <OrdersView />
+  redirect('/')
 }

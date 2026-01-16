@@ -34,7 +34,7 @@ async function main() {
       email: process.env.ADMIN_EMAIL || 'admin@bistrobay.com',
       password: hashedPassword,
       name: 'Admin User',
-      role: 'admin',
+      role: 'ADMIN',
     },
   })
 
@@ -222,6 +222,7 @@ async function main() {
   const sampleLocations = [
     {
       name: 'Broadway Main',
+      code: 'GULBERG',
       address: 'Shop 12, Gulberg Main Blvd',
       city: 'Lahore',
       country: 'Pakistan',
@@ -235,6 +236,7 @@ async function main() {
     },
     {
       name: 'Defense Phase 6',
+      code: 'RAYA',
       address: 'Plot 45, Raya Fairways',
       city: 'Lahore',
       country: 'Pakistan',
@@ -248,6 +250,7 @@ async function main() {
     },
     {
       name: 'North Nazimabad',
+      code: 'NORTH',
       address: 'Block L, Five Star Chowrangi',
       city: 'Karachi',
       country: 'Pakistan',

@@ -67,7 +67,7 @@ export default function AdminDashboard({
     return <AdminLogin onLogin={() => setIsAuthenticated(true)} />
   }
 
-  const pendingOrders = orders.filter(o => o.status !== 'completed' && o.status !== 'cancelled')
+  const pendingOrders = orders.filter(o => o.status !== 'COMPLETED' && o.status !== 'CANCELLED')
 
   return (
     <div className="min-h-screen bg-background">

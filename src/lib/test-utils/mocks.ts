@@ -50,8 +50,8 @@ export const handlers = [
   // Orders endpoints
   http.get(`${BASE_URL}/api/orders`, () => {
     const orders = [
-      createMockOrder({ id: '1', status: 'pending' }),
-      createMockOrder({ id: '2', status: 'confirmed' }),
+      createMockOrder({ id: '1', status: 'PENDING' }),
+      createMockOrder({ id: '2', status: 'CONFIRMED' }),
     ]
     return HttpResponse.json(orders)
   }),
@@ -59,7 +59,7 @@ export const handlers = [
   http.post(`${BASE_URL}/api/orders`, async ({ request }) => {
     const body = (await request.json()) as any
     return HttpResponse.json(
-      { id: 'new-order', ...body, status: 'pending', createdAt: Date.now() },
+      { id: 'new-order', ...body, status: 'PENDING', createdAt: Date.now() },
       { status: 201 }
     )
   }),

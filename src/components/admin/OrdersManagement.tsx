@@ -12,17 +12,16 @@ interface OrdersManagementProps {
   setOrders: (orders: Order[] | ((prev: Order[]) => Order[])) => void
 }
 
-const statusOptions: OrderStatus[] = ['pending', 'confirmed', 'preparing', 'ready', 'out_for_delivery', 'delivered', 'completed', 'cancelled']
+const statusOptions: OrderStatus[] = ['PENDING', 'CONFIRMED', 'PREPARING', 'READY', 'SERVED', 'COMPLETED', 'CANCELLED']
 
 const statusConfig: Record<OrderStatus, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
-  pending: { label: 'Pending', variant: 'secondary' },
-  confirmed: { label: 'Confirmed', variant: 'default' },
-  preparing: { label: 'Preparing', variant: 'default' },
-  ready: { label: 'Ready', variant: 'default' },
-  out_for_delivery: { label: 'Out for Delivery', variant: 'default' },
-  delivered: { label: 'Delivered', variant: 'outline' },
-  completed: { label: 'Completed', variant: 'outline' },
-  cancelled: { label: 'Cancelled', variant: 'destructive' },
+  PENDING: { label: 'Pending', variant: 'secondary' },
+  CONFIRMED: { label: 'Confirmed', variant: 'default' },
+  PREPARING: { label: 'Preparing', variant: 'default' },
+  READY: { label: 'Ready', variant: 'default' },
+  SERVED: { label: 'Served', variant: 'default' },
+  COMPLETED: { label: 'Completed', variant: 'outline' },
+  CANCELLED: { label: 'Cancelled', variant: 'destructive' },
 }
 
 export default function OrdersManagement({ orders, setOrders }: OrdersManagementProps) {
@@ -35,8 +34,8 @@ export default function OrdersManagement({ orders, setOrders }: OrdersManagement
     toast.success(`Order ${orderId} updated to ${statusConfig[newStatus].label}`)
   }
 
-  const activeOrders = orders.filter(o => o.status !== 'completed' && o.status !== 'cancelled')
-  const completedOrders = orders.filter(o => o.status === 'completed' || o.status === 'cancelled')
+  const activeOrders = orders.filter(o => o.status !== 'COMPLETED' && o.status !== 'CANCELLED')
+  const completedOrders = orders.filter(o => o.status === 'COMPLETED' || o.status === 'CANCELLED')
 
   if (orders.length === 0) {
     return (
@@ -128,23 +127,23 @@ export default function OrdersManagement({ orders, setOrders }: OrdersManagement
                       <span className="text-xl font-semibold">Rs. {order.total.toLocaleString()}</span>
                     </div>
                     <div className="flex gap-2">
-                      {order.status === 'pending' && (
-                        <Button onClick={() => updateOrderStatus(order.id, 'confirmed')}>
+                      {order.status === 'PENDING' && (
+                        <Button onClick={() => updateOrderStatus(order.id, 'CONFIRMED')}>
                           Confirm Order
                         </Button>
                       )}
-                      {order.status === 'confirmed' && (
-                        <Button onClick={() => updateOrderStatus(order.id, 'preparing')}>
+                      {order.status === 'CONFIRMED' && (
+                        <Button onClick={() => updateOrderStatus(order.id, 'PREPARING')}>
                           Start Preparing
                         </Button>
                       )}
-                      {order.status === 'preparing' && (
-                        <Button onClick={() => updateOrderStatus(order.id, 'ready')}>
+                      {order.status === 'PREPARING' && (
+                        <Button onClick={() => updateOrderStatus(order.id, 'READY')}>
                           Mark Ready
                         </Button>
                       )}
-                      {order.status === 'ready' && (
-                        <Button onClick={() => updateOrderStatus(order.id, 'completed')}>
+                      {order.status === 'READY' && (
+                        <Button onClick={() => updateOrderStatus(order.id, 'COMPLETED')}>
                           Complete Order
                         </Button>
                       )}

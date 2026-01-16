@@ -1,12 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import {
   menuItemSchema,
-  menuItemUpdateSchema,
   categorySchema,
-  categoryUpdateSchema,
   categoryReorderSchema,
   orderCreateSchema,
-  orderUpdateSchema,
   orderQuerySchema,
   restaurantSettingsSchema,
   smtpConfigSchema,
@@ -204,10 +201,10 @@ describe('orderCreateSchema', () => {
     customerName: 'John Doe',
     customerEmail: 'john@example.com',
     customerPhone: '5551234567',
-    orderType: 'pickup' as const,
+    orderType: 'TAKEAWAY' as const,
   }
 
-  it('validates a valid pickup order', () => {
+  it('validates a valid takeaway order', () => {
     const result = orderCreateSchema.safeParse(validOrder)
     expect(result.success).toBe(true)
   })
@@ -215,7 +212,7 @@ describe('orderCreateSchema', () => {
   it('validates a valid delivery order with address', () => {
     const result = orderCreateSchema.safeParse({
       ...validOrder,
-      orderType: 'delivery',
+      orderType: 'DELIVERY',
       address: '123 Main St, Apt 4B',
     })
     expect(result.success).toBe(true)
@@ -224,7 +221,7 @@ describe('orderCreateSchema', () => {
   it('rejects delivery order without address', () => {
     const result = orderCreateSchema.safeParse({
       ...validOrder,
-      orderType: 'delivery',
+      orderType: 'DELIVERY',
     })
     expect(result.success).toBe(false)
     if (!result.success) {
@@ -548,7 +545,7 @@ describe('orderQuerySchema', () => {
 
   it('validates with optional filters', () => {
     const result = orderQuerySchema.safeParse({
-      status: 'pending',
+      status: 'PENDING',
       customerId: 'clh1234567890abcdefg',
       page: 1,
       limit: 20,

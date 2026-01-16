@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { ChevronLeft, ChevronRight, ShoppingCart, Plus, Minus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -54,9 +54,9 @@ function HeroSlider({ banners }: { banners: Banner[] }) {
         className="flex h-full transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
-        {activeBanners.map((banner, index) => (
-          <div 
-            key={banner.id} 
+        {activeBanners.map((banner) => (
+          <div
+            key={banner.id}
             className="min-w-full h-full relative flex-shrink-0"
           >
             <div 

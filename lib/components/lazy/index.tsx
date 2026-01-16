@@ -25,7 +25,7 @@ const ManagementSkeleton = () => (
 
 // Lazy loaded admin components
 export const LazyAdminDashboard = dynamic(
-  () => import('@/lib/components/admin/AdminDashboard').then((mod) => mod.default),
+  () => import('@/components/admin/AdminDashboard').then((mod) => mod.default),
   {
     loading: () => <AdminDashboardSkeleton />,
     ssr: false, // Admin dashboard doesn't need SSR
@@ -33,7 +33,7 @@ export const LazyAdminDashboard = dynamic(
 )
 
 export const LazyCategoryManagement = dynamic(
-  () => import('@/lib/components/admin/CategoryManagement').then((mod) => mod.default),
+  () => import('@/components/admin/CategoryManagement').then((mod) => mod.default),
   {
     loading: () => <ManagementSkeleton />,
     ssr: false,
@@ -41,7 +41,7 @@ export const LazyCategoryManagement = dynamic(
 )
 
 export const LazyMenuManagement = dynamic(
-  () => import('@/lib/components/admin/MenuManagement').then((mod) => mod.default),
+  () => import('@/components/admin/MenuManagement').then((mod) => mod.default),
   {
     loading: () => <ManagementSkeleton />,
     ssr: false,
@@ -49,7 +49,7 @@ export const LazyMenuManagement = dynamic(
 )
 
 export const LazyOrdersManagement = dynamic(
-  () => import('@/lib/components/admin/OrdersManagement').then((mod) => mod.default),
+  () => import('@/components/admin/OrdersManagement').then((mod) => mod.default),
   {
     loading: () => <ManagementSkeleton />,
     ssr: false,
@@ -57,7 +57,7 @@ export const LazyOrdersManagement = dynamic(
 )
 
 export const LazySettingsManagement = dynamic(
-  () => import('@/lib/components/admin/SettingsManagement').then((mod) => mod.default),
+  () => import('@/components/admin/SettingsManagement').then((mod) => mod.default),
   {
     loading: () => <ManagementSkeleton />,
     ssr: false,
